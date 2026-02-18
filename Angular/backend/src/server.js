@@ -6,6 +6,8 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const apiRoutes = require('./routes');
 const { connectToDatabase } = require('./config/database');
+const Product = require('./models/product.model');
+const { seedProducts } = require('./data/seed-products');
 
 const app = express();
 app.use(helmet());
@@ -31,6 +33,11 @@ const port = process.env.PORT || 3000;
 async function bootstrap() {
   try {
     await connectToDatabase();
+
+    const productCount = await Product.countDocuments();
+    if (productCount === 0) {
+      await Product.insertMany(seedProducts);
+    }
 
     app.listen(port, () => {
       // eslint-disable-next-line no-console

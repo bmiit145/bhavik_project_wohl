@@ -16,6 +16,7 @@ import { NewArrivalsComponent } from './pages/new-arrivals/new-arrivals.componen
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { ProductDetailsComponent } from './pages/product-details/product-details.component';
 import { AdminLoginComponent } from './pages/admin-login/admin-login.component';
 import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component';
 import { adminAuthGuard } from './core/services/admin-auth.guard';

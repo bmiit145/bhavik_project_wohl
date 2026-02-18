@@ -25,3 +25,9 @@
 	color: #64748b;
 	min-height: 42px;
 }
+
+.product-actions {
+	display: flex;
+	gap: 0.5rem;
+	flex-wrap: wrap;
+}

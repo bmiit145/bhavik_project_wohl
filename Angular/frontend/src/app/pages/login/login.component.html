@@ -1,1 +1,23 @@
-<section class="card"><h2>Login</h2><p>Migrated target for <code>login.php</code>.</p></section>
+<section class="card" style="max-width: 460px; margin: 1.2rem auto;">
+	<h2>Login</h2>
+	<p>Sign in to your account.</p>
+
+	<form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="grid">
+		<label>
+			Email
+			<input name="email" [(ngModel)]="email" type="email" required />
+		</label>
+
+		<label>
+			Password
+			<input name="password" [(ngModel)]="password" type="password" required />
+		</label>
+
+		<button class="btn btn-primary" type="submit" [disabled]="!loginForm.form.valid || loading()">
+			{{ loading() ? 'Signing in...' : 'Sign in' }}
+		</button>
+	</form>
+
+	<p *ngIf="message()" style="color:#b91c1c; margin-top:.8rem;">{{ message() }}</p>
+	<p style="margin-top:.8rem;">New user? <a routerLink="/register">Create account</a></p>
+</section>

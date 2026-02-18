@@ -1,5 +1,5 @@
 const Product = require('../models/product.model');
-const { orders } = require('../data/mock-db');
+const Order = require('../models/order.model');
 
 async function listAdminProducts(_, res) {
   try {
@@ -82,8 +82,13 @@ async function deleteProduct(req, res) {
   }
 }
 
-function listOrders(_, res) {
-  return res.json(orders);
+async function listOrders(_, res) {
+  try {
+    const orders = await Order.find({}).sort({ createdAt: -1 }).select('-_id -__v').lean();
+    return res.json(orders);
+  } catch (error) {
+    return res.status(500).json({ message: 'Failed to fetch orders' });
+  }
 }
 
 module.exports = {

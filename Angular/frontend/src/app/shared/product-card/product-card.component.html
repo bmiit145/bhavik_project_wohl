@@ -1,7 +1,12 @@
 <article class="card product-card">
-  <img [src]="product.image" [alt]="product.name" />
-  <h3>{{ product.name }}</h3>
+  <a [routerLink]="['/product', product.id]">
+    <img [src]="product.image" [alt]="product.name" />
+  </a>
+  <h3><a [routerLink]="['/product', product.id]">{{ product.name }}</a></h3>
   <p>{{ product.description }}</p>
   <strong>{{ product.price | currency:'INR' }}</strong>
-  <button class="btn btn-primary" (click)="addToCart()">Add to cart</button>
+  <div class="product-actions">
+    <button class="btn btn-primary" (click)="addToCart()">Add to cart</button>
+    <a class="btn" [routerLink]="['/product', product.id]">View details</a>
+  </div>
 </article>

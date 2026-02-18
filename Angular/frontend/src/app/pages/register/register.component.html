@@ -1,1 +1,33 @@
-<section class="card"><h2>Register</h2><p>Migrated target for <code>registration.php</code>.</p></section>
+<section class="card" style="max-width: 500px; margin: 1.2rem auto;">
+	<h2>Create Account</h2>
+	<p>Register to continue shopping.</p>
+
+	<form (ngSubmit)="onSubmit()" #registerForm="ngForm" class="grid">
+		<label>
+			Full Name
+			<input name="fullName" [(ngModel)]="fullName" required />
+		</label>
+
+		<label>
+			Email
+			<input name="email" type="email" [(ngModel)]="email" required />
+		</label>
+
+		<label>
+			Password
+			<input name="password" type="password" [(ngModel)]="password" required />
+		</label>
+
+		<label>
+			Confirm Password
+			<input name="confirmPassword" type="password" [(ngModel)]="confirmPassword" required />
+		</label>
+
+		<button class="btn btn-primary" type="submit" [disabled]="!registerForm.form.valid || loading()">
+			{{ loading() ? 'Creating account...' : 'Create account' }}
+		</button>
+	</form>
+
+	<p *ngIf="message()" [style.color]="success() ? '#166534' : '#b91c1c'" style="margin-top:.8rem;">{{ message() }}</p>
+	<p style="margin-top:.8rem;">Already have an account? <a routerLink="/login">Login</a></p>
+</section>
