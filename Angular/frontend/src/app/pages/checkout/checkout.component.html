@@ -1,0 +1,27 @@
+<section class="card">
+  <h2>Checkout</h2>
+  <p *ngIf="cart.items().length === 0">Your cart is empty.</p>
+
+  <form *ngIf="cart.items().length > 0" (ngSubmit)="placeOrder()" #checkoutForm="ngForm" class="grid">
+    <label>
+      Name
+      <input name="customerName" [(ngModel)]="customerName" required />
+    </label>
+
+    <label>
+      Email
+      <input name="email" type="email" [(ngModel)]="email" required />
+    </label>
+
+    <label>
+      Address
+      <textarea name="address" [(ngModel)]="address" required></textarea>
+    </label>
+
+    <p><strong>Total:</strong> {{ total | currency:'INR' }}</p>
+
+    <button class="btn btn-primary" [disabled]="!checkoutForm.form.valid">Place order</button>
+  </form>
+
+  <p *ngIf="status()">{{ status() }}</p>
+</section>
