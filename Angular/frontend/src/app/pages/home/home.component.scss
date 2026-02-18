@@ -1,0 +1,73 @@
+.hero {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 1rem;
+  align-items: center;
+}
+
+.hero img {
+  width: 100%;
+  border-radius: 14px;
+  min-height: 280px;
+  object-fit: cover;
+}
+
+.eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #a855f7;
+  font-size: 0.8rem;
+}
+
+.lead {
+  color: #475569;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.category-grid {
+  margin: 1rem 0;
+  display: grid;
+  gap: 0.8rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.category-card {
+  border-radius: 14px;
+  padding: 1rem;
+  color: white;
+}
+
+.category-card h3,
+.category-card p {
+  margin: 0;
+}
+
+.category-card p {
+  margin-top: 0.35rem;
+  opacity: 0.9;
+  font-size: 0.9rem;
+}
+
+.category-card.men { background: linear-gradient(135deg, #334155, #475569); }
+.category-card.women { background: linear-gradient(135deg, #9d174d, #db2777); }
+.category-card.kid { background: linear-gradient(135deg, #0c4a6e, #0ea5e9); }
+.category-card.new { background: linear-gradient(135deg, #854d0e, #f59e0b); }
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+
+@media (max-width: 960px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+}

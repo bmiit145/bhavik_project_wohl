@@ -1,0 +1,38 @@
+.details {
+  display: grid;
+  grid-template-columns: minmax(240px, 460px) 1fr;
+  gap: 1rem;
+}
+
+.details img {
+  width: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+  min-height: 280px;
+}
+
+.eyebrow {
+  text-transform: capitalize;
+  color: #6366f1;
+  margin: 0;
+}
+
+.description {
+  color: #475569;
+}
+
+.price {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.actions {
+  display: flex;
+  gap: 0.6rem;
+}
+
+@media (max-width: 850px) {
+  .details {
+    grid-template-columns: 1fr;
+  }
+}

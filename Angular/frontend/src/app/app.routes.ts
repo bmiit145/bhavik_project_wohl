@@ -16,10 +16,15 @@ import { NewArrivalsComponent } from './pages/new-arrivals/new-arrivals.componen
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { AdminLoginComponent } from './pages/admin-login/admin-login.component';
+import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component';
+import { ProductDetailsComponent } from './pages/product-details/product-details.component';
+import { adminAuthGuard } from './core/services/admin-auth.guard';
 
 export const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'shop', component: ShopComponent },
+  { path: 'product/:id', component: ProductDetailsComponent },
   { path: 'cart', component: CartComponent },
   { path: 'checkout', component: CheckoutComponent },
   { path: 'profile', component: ProfileComponent },
@@ -34,5 +39,7 @@ export const appRoutes: Routes = [
   { path: 'new', component: NewArrivalsComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'orders', component: OrdersComponent },
+  { path: 'admin/login', component: AdminLoginComponent },
+  { path: 'admin', component: AdminDashboardComponent, canActivate: [adminAuthGuard] },
   { path: '**', component: NotFoundComponent }
 ];

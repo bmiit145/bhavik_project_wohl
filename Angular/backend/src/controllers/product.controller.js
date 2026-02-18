@@ -1,14 +1,31 @@
-const Product = require('../models/product.model');
+const { products } = require('../data/mock-db');
 
-async function listProducts(req, res) {
+function listProducts(req, res) {
   try {
     const { category } = req.query;
-    const filter = category ? { category } : {};
-    const products = await Product.find(filter).sort({ id: 1 }).select('-_id').lean();
-    return res.json(products);
+    const filtered = category ? products.filter((product) => product.category === category) : products;
+    return res.json(filtered.sort((a, b) => a.id - b.id));
   } catch (error) {
     return res.status(500).json({ message: 'Failed to fetch products' });
   }
 }
 
-module.exports = { listProducts };
+function getProductById(req, res) {
+  try {
+    const id = Number(req.params.id);
+    if (!Number.isInteger(id)) {
+      return res.status(400).json({ message: 'Invalid product id' });
+    }
+
+    const product = products.find((item) => item.id === id);
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    return res.json(product);
+  } catch (error) {
+    return res.status(500).json({ message: 'Failed to fetch product details' });
+  }
+}
+
+module.exports = { listProducts, getProductById };
