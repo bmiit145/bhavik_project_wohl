@@ -18,7 +18,6 @@ import { OrdersComponent } from './pages/orders/orders.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { AdminLoginComponent } from './pages/admin-login/admin-login.component';
 import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component';
-import { ProductDetailsComponent } from './pages/product-details/product-details.component';
 import { adminAuthGuard } from './core/services/admin-auth.guard';
 
 export const appRoutes: Routes = [

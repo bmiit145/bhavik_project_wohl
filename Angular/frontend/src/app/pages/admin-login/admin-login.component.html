@@ -1,18 +1,28 @@
-<section class="card" style="max-width: 420px; margin: 0 auto;">
-  <h2>Admin Login</h2>
-  <form (ngSubmit)="onSubmit()" #form="ngForm" class="grid">
-    <label>
-      Username
-      <input name="username" [(ngModel)]="username" required />
-    </label>
+<section class="admin-login-wrap">
+  <article class="card border-0 shadow-sm admin-login">
+    <header class="mb-3">
+      <span class="badge text-bg-primary-subtle text-primary-emphasis mb-2">Secure Access</span>
+      <h2 class="h4 mb-1">Admin Login</h2>
+      <p class="text-secondary mb-0">Sign in to manage products and orders.</p>
+    </header>
 
-    <label>
-      Password
-      <input name="password" type="password" [(ngModel)]="password" required />
-    </label>
+    <form (ngSubmit)="onSubmit()" #form="ngForm" class="row g-3">
+      <div class="col-12">
+        <label class="form-label">Username</label>
+        <input class="form-control" name="username" [(ngModel)]="username" placeholder="admin" required />
+      </div>
 
-    <button class="btn btn-primary" [disabled]="!form.form.valid">Sign in</button>
-  </form>
+      <div class="col-12">
+        <label class="form-label">Password</label>
+        <input class="form-control" name="password" type="password" [(ngModel)]="password" placeholder="••••••••" required />
+      </div>
 
-  <p *ngIf="error()" style="color: #a22727">{{ error() }}</p>
+      <div class="col-12 d-grid">
+        <button class="btn btn-primary" [disabled]="!form.form.valid">Sign in</button>
+      </div>
+    </form>
+
+    <div *ngIf="error()" class="alert alert-danger mt-3 mb-2 py-2">{{ error() }}</div>
+    <small class="text-secondary">Demo credentials: admin / admin123</small>
+  </article>
 </section>

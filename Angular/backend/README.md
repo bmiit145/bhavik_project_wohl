@@ -4,8 +4,7 @@ Node/Express backend inspired by legacy PHP modules.
 
 ## Features
 
-- Product listing (`GET /api/v1/products`) and product details (`GET /api/v1/products/:id`)
-- Seeded base products across men/women/kid/new categories
+- Product listing (`GET /api/v1/products`)
 - Cart endpoints (`GET/POST/DELETE /api/v1/cart...`)
 - Wishlist endpoints (`GET/POST /api/v1/wishlist...`)
 - Auth stubs (`POST /api/v1/auth/login`, `POST /api/v1/auth/register`)
@@ -27,6 +26,5 @@ npm run start
 Environment:
 - `PORT` (default `3000`)
 - `CORS_ORIGIN` (optional)
+- `MONGODB_URI` (required for MongoDB)
 - `ADMIN_TOKEN` (default `admin-secret`)
-
-> Current implementation is self-contained and uses in-memory data to allow immediate local API testing.

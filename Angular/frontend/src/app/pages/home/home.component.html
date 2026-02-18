@@ -1,32 +1,8 @@
-<section class="hero card">
-  <div>
-    <p class="eyebrow">Modern E-Commerce</p>
-    <h1>Feel Good, Look Better.</h1>
-    <p class="lead">
-      A premium skincare and grooming destination inspired by the legacy PHP store and rebuilt as a modern Angular
-      experience.
-    </p>
-    <div class="hero-actions">
-      <a class="btn btn-primary" routerLink="/shop">Shop Now</a>
-      <a class="btn" routerLink="/new">Explore New Arrivals</a>
-    </div>
-  </div>
-  <img src="https://picsum.photos/seed/home-banner/900/620" alt="Storefront banner" />
-</section>
-
-<section class="category-grid">
-  <a class="category-card men" routerLink="/men"><h3>Men</h3><p>Daily grooming essentials</p></a>
-  <a class="category-card women" routerLink="/women"><h3>Women</h3><p>Beauty and skincare picks</p></a>
-  <a class="category-card kid" routerLink="/kid"><h3>Kid</h3><p>Gentle care for little ones</p></a>
-  <a class="category-card new" routerLink="/new"><h3>New</h3><p>Fresh launches every week</p></a>
-</section>
-
-<section>
-  <div class="section-head">
-    <h2>Featured Products</h2>
-    <a routerLink="/shop">View all</a>
-  </div>
-  <div class="grid grid-3">
-    <app-product-card *ngFor="let product of featured" [product]="product" />
+<section class="card home-hero">
+  <h1>Premium Skincare & Grooming</h1>
+  <p>Modern Angular storefront with clean architecture, faster navigation, and scalable product workflows.</p>
+  <div class="hero-actions">
+    <a class="btn btn-primary" routerLink="/shop">Shop Now</a>
+    <a class="btn" routerLink="/new">New Arrivals</a>
   </div>
 </section>

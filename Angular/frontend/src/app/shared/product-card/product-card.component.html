@@ -3,9 +3,5 @@
   <h3>{{ product.name }}</h3>
   <p>{{ product.description }}</p>
   <strong>{{ product.price | currency:'INR' }}</strong>
-
-  <div class="actions">
-    <a class="btn" [routerLink]="['/product', product.id]">Details</a>
-    <button class="btn btn-primary" (click)="addToCart()">Add to cart</button>
-  </div>
+  <button class="btn btn-primary" (click)="addToCart()">Add to cart</button>
 </article>

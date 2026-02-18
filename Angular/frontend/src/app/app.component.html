@@ -1,16 +1,25 @@
 <header class="topbar">
   <div class="container nav">
-    <a routerLink="/" class="logo">Wohl Reactions</a>
-    <nav>
-      <a routerLink="/">Home</a>
+    <a routerLink="/" class="logo">
+      <span class="logo-mark">W</span>
+      <div>
+        <strong>Wohl Reactions</strong>
+        <small>Skincare Commerce</small>
+      </div>
+    </a>
+
+    <nav class="nav-links">
       <a routerLink="/shop">Shop</a>
       <a routerLink="/men">Men</a>
       <a routerLink="/women">Women</a>
       <a routerLink="/kid">Kid</a>
       <a routerLink="/new">New</a>
       <a routerLink="/cart">Cart</a>
+      <a routerLink="/profile">Profile</a>
       <a routerLink="/admin/login">Admin</a>
     </nav>
+
+    <a routerLink="/admin/login" class="btn btn-primary admin-link">Admin Panel</a>
   </div>
 </header>
 
@@ -20,7 +29,7 @@
 
 <footer class="footer">
   <div class="container footer-inner">
-    <p>© {{ year }} Wohl Reactions</p>
-    <p>Built with Angular + Node</p>
+    <span>© {{ year }} Wohl Reactions</span>
+    <span>Professional Beauty Retail Platform</span>
   </div>
 </footer>

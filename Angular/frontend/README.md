@@ -4,18 +4,15 @@ Angular 17 standalone application that maps legacy PHP pages to SPA routes and c
 
 ## Included
 
-- Storefront routes: home, shop, category pages (men/women/kid/new), product details, cart, checkout, wishlist, profile, orders, auth pages
+- Storefront routes: home, shop, men/women/kid/new, cart, checkout, wishlist, profile, orders, auth pages
 - Product listing from backend API
-- category-specific collection pages and product details view
 - Add-to-cart in client state and checkout order placement
 - Admin panel routes:
   - `/admin/login`
   - `/admin` (guarded)
 - Admin panel capabilities:
-  - modern tabbed dashboard (overview/products/orders)
-  - view/create/update/delete products
-  - search/filter products by category
-  - view placed orders and revenue summary
+  - view/create/delete products
+  - view placed orders
 
 ## Run
 
