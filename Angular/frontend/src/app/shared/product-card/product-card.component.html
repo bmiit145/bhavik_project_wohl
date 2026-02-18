@@ -3,4 +3,5 @@
   <h3>{{ product.name }}</h3>
   <p>{{ product.description }}</p>
   <strong>{{ product.price | currency:'INR' }}</strong>
+  <button class="btn btn-primary" (click)="addToCart()">Add to cart</button>
 </article>

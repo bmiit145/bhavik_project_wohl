@@ -1,0 +1,18 @@
+<section class="card" style="max-width: 420px; margin: 0 auto;">
+  <h2>Admin Login</h2>
+  <form (ngSubmit)="onSubmit()" #form="ngForm" class="grid">
+    <label>
+      Username
+      <input name="username" [(ngModel)]="username" required />
+    </label>
+
+    <label>
+      Password
+      <input name="password" type="password" [(ngModel)]="password" required />
+    </label>
+
+    <button class="btn btn-primary" [disabled]="!form.form.valid">Sign in</button>
+  </form>
+
+  <p *ngIf="error()" style="color: #a22727">{{ error() }}</p>
+</section>

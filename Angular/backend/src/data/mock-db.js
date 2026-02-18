@@ -7,5 +7,6 @@ const products = [
 
 const cart = [];
 const wishlist = [];
+const orders = [];
 
-module.exports = { products, cart, wishlist };
+module.exports = { products, cart, wishlist, orders };
