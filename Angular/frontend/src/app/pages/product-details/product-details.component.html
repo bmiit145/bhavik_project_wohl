@@ -1,0 +1,21 @@
+<section class="card" *ngIf="loading()">Loading product details...</section>
+
+<section class="details card" *ngIf="!loading() && product() as item">
+  <img [src]="item.image" [alt]="item.name" />
+  <div>
+    <p class="eyebrow">{{ item.category }} collection</p>
+    <h1>{{ item.name }}</h1>
+    <p class="description">{{ item.description }}</p>
+    <p class="price">{{ item.price | currency:'INR' }}</p>
+
+    <div class="actions">
+      <button class="btn btn-primary" (click)="addToCart()">Add to Cart</button>
+      <a class="btn" routerLink="/shop">Continue Shopping</a>
+    </div>
+  </div>
+</section>
+
+<section class="card" *ngIf="!loading() && !product()">
+  <h2>Product not found</h2>
+  <a class="btn" routerLink="/shop">Back to Shop</a>
+</section>

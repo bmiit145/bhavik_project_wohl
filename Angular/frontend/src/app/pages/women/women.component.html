@@ -1,1 +1,11 @@
-<section class="card"><h2>Women Collection</h2><p>Migrated target for <code>women.php</code>.</p></section>
+<section class="collection-hero card">
+  <p class="eyebrow">Category</p>
+  <h1>Women's Beauty Collection</h1>
+  <p>Curated skincare and beauty essentials for a radiant routine.</p>
+</section>
+
+<section class="grid grid-3">
+  <app-product-card *ngFor="let product of products" [product]="product" />
+</section>
+
+<p class="empty" *ngIf="products.length === 0">No women products found.</p>

@@ -11,4 +11,8 @@ export class ProductService {
     const query = category ? `?category=${category}` : '';
     return this.http.get<Product[]>(`/products${query}`);
   }
+
+  getProductById(id: number): Observable<Product> {
+    return this.http.get<Product>(`/products/${id}`);
+  }
 }

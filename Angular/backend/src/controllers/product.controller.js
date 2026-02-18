@@ -10,4 +10,22 @@ function listProducts(req, res) {
   }
 }
 
-module.exports = { listProducts };
+function getProductById(req, res) {
+  try {
+    const id = Number(req.params.id);
+    if (!Number.isInteger(id)) {
+      return res.status(400).json({ message: 'Invalid product id' });
+    }
+
+    const product = products.find((item) => item.id === id);
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    return res.json(product);
+  } catch (error) {
+    return res.status(500).json({ message: 'Failed to fetch product details' });
+  }
+}
+
+module.exports = { listProducts, getProductById };
