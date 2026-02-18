@@ -6,7 +6,7 @@ import { CartService } from '../../core/services/cart.service';
 @Component({
   selector: 'app-product-card',
   standalone: true,
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, RouterLink],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.scss'
 })

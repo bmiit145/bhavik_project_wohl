@@ -1,1 +1,11 @@
-<section class="card"><h2>Kid Collection</h2><p>Migrated target for <code>kid.php</code>.</p></section>
+<section class="collection-hero card">
+  <p class="eyebrow">Category</p>
+  <h1>Kid Care Products</h1>
+  <p>Safe and gentle everyday care for children and babies.</p>
+</section>
+
+<section class="grid grid-3">
+  <app-product-card *ngFor="let product of products" [product]="product" />
+</section>
+
+<p class="empty" *ngIf="products.length === 0">No kid products found.</p>

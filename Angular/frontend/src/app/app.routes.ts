@@ -23,6 +23,7 @@ import { adminAuthGuard } from './core/services/admin-auth.guard';
 export const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'shop', component: ShopComponent },
+  { path: 'product/:id', component: ProductDetailsComponent },
   { path: 'cart', component: CartComponent },
   { path: 'checkout', component: CheckoutComponent },
   { path: 'profile', component: ProfileComponent },

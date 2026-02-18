@@ -1,6 +1,9 @@
-<section>
-  <h2>Shop</h2>
-  <div class="grid grid-3">
-    <app-product-card *ngFor="let product of products" [product]="product" />
-  </div>
+<section class="card" style="margin-bottom: 1rem;">
+  <p style="margin:0; text-transform:uppercase; letter-spacing: .08em; color:#6366f1; font-size:.78rem;">All Products</p>
+  <h1 style="margin: .35rem 0;">Shop Collection</h1>
+  <p style="margin:0; color:#475569;">Discover skincare and grooming essentials across every category.</p>
+</section>
+
+<section class="grid grid-3">
+  <app-product-card *ngFor="let product of products" [product]="product" />
 </section>
