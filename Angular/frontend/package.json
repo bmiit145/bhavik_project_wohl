@@ -3,9 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "prestart": "node scripts/sync-env.mjs",
     "start": "ng serve",
+    "prebuild": "node scripts/sync-env.mjs",
     "build": "ng build",
+    "pretest": "node scripts/sync-env.mjs",
     "test": "ng test",
+    "prelint": "node scripts/sync-env.mjs",
     "lint": "ng lint"
   },
   "dependencies": {
@@ -25,6 +29,7 @@
     "@angular-devkit/build-angular": "^17.3.0",
     "@angular/cli": "^17.3.0",
     "@angular/compiler-cli": "^17.3.0",
+    "dotenv": "^16.4.5",
     "typescript": "^5.4.0"
   }
 }

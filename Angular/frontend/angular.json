@@ -31,5 +31,8 @@
       }
     }
   },
-  "defaultProject": "wohl-angular-frontend"
+  "defaultProject": "wohl-angular-frontend",
+  "cli": {
+    "analytics": "4612d2a2-aecc-47c1-af4d-56d88191b36c"
+  }
 }

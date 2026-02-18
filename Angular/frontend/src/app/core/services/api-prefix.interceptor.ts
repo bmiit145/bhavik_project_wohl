@@ -1,11 +1,12 @@
 import { HttpInterceptorFn } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 export const apiPrefixInterceptor: HttpInterceptorFn = (req, next) => {
   if (req.url.startsWith('http')) {
     return next(req);
   }
 
-  const backendUrl = 'http://localhost:3000/api/v1';
+  const backendUrl = environment.apiBaseUrl;
   const normalized = req.url.startsWith('/') ? req.url : `/${req.url}`;
   return next(req.clone({ url: `${backendUrl}${normalized}` }));
 };
