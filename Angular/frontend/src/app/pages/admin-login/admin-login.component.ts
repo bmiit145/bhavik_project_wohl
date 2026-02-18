@@ -8,7 +8,8 @@ import { AdminSessionService } from '../../core/services/admin-session.service';
   standalone: true,
   selector: 'app-admin-login',
   imports: [FormsModule, NgIf],
-  templateUrl: './admin-login.component.html'
+  templateUrl: './admin-login.component.html',
+  styleUrl: './admin-login.component.scss'
 })
 export class AdminLoginComponent {
   username = '';

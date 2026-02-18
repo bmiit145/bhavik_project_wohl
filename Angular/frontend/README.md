@@ -11,10 +11,8 @@ Angular 17 standalone application that maps legacy PHP pages to SPA routes and c
   - `/admin/login`
   - `/admin` (guarded)
 - Admin panel capabilities:
-  - modern tabbed dashboard (overview/products/orders)
-  - view/create/update/delete products
-  - search/filter products by category
-  - view placed orders and revenue summary
+  - view/create/delete products
+  - view placed orders
 
 ## Run
 

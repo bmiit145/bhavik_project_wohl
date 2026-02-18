@@ -1,168 +1,159 @@
 <section class="admin-shell">
-  <header class="admin-header">
-    <div>
-      <p class="admin-eyebrow">Wohl Admin</p>
-      <h2>Store Control Center</h2>
-      <p class="admin-subtitle">Inspired by the legacy PHP admin and modernized for a clean Angular workflow.</p>
-    </div>
-    <div class="header-actions">
-      <button class="btn" (click)="refreshData()">Refresh</button>
-      <button class="btn btn-primary" (click)="logout()">Logout</button>
-    </div>
-  </header>
-
-  <section class="stats-grid">
-    <article class="stat-card">
-      <p>Products</p>
-      <strong>{{ productCount() }}</strong>
-    </article>
-    <article class="stat-card">
-      <p>Orders</p>
-      <strong>{{ orderCount() }}</strong>
-    </article>
-    <article class="stat-card">
-      <p>Revenue</p>
-      <strong>{{ totalRevenue() | currency:'INR' }}</strong>
-    </article>
-  </section>
-
-  <nav class="tab-nav">
-    <button class="tab-btn" [ngClass]="{ active: activeTab() === 'overview' }" (click)="setTab('overview')">Overview</button>
-    <button class="tab-btn" [ngClass]="{ active: activeTab() === 'products' }" (click)="setTab('products')">Products</button>
-    <button class="tab-btn" [ngClass]="{ active: activeTab() === 'orders' }" (click)="setTab('orders')">Orders</button>
-  </nav>
-
-  <section class="card" *ngIf="activeTab() === 'overview'">
-    <h3>Quick Insights</h3>
-    <p>Use Products tab to manage catalog and Orders tab to monitor checkout activity.</p>
-    <div class="overview-grid">
-      <div>
-        <h4>Latest Products</h4>
-        <ul>
-          <li *ngFor="let product of products.slice(-5).reverse()">{{ product.name }} · {{ product.category }}</li>
-        </ul>
-      </div>
-      <div>
-        <h4>Recent Orders</h4>
-        <ul>
-          <li *ngFor="let order of orders.slice(-5).reverse()">
-            #{{ order.id }} - {{ order.customerName }} - {{ order.total | currency:'INR' }}
-          </li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section *ngIf="activeTab() === 'products'" class="products-layout">
-    <article class="card form-card">
-      <h3>{{ editingProductId ? 'Edit Product' : 'Add Product' }}</h3>
-      <form class="form-grid" (ngSubmit)="submitProductForm()" #productForm="ngForm">
-        <label>
-          Product Name
-          <input name="name" [(ngModel)]="form.name" required />
-        </label>
-
-        <label>
-          Category
-          <select name="category" [(ngModel)]="form.category" required>
-            <option value="men">Men</option>
-            <option value="women">Women</option>
-            <option value="kid">Kid</option>
-            <option value="new">New</option>
-          </select>
-        </label>
-
-        <label>
-          Price
-          <input name="price" type="number" min="1" [(ngModel)]="form.price" required />
-        </label>
-
-        <label>
-          Image URL
-          <input name="image" [(ngModel)]="form.image" required />
-        </label>
-
-        <label>
-          Description
-          <textarea name="description" rows="4" [(ngModel)]="form.description" required></textarea>
-        </label>
-
-        <div class="form-actions">
-          <button type="button" class="btn" (click)="startCreate()">Reset</button>
-          <button class="btn btn-primary" [disabled]="!productForm.form.valid || isSubmitting">
-            {{ editingProductId ? 'Update Product' : 'Create Product' }}
-          </button>
+  <div class="row g-3">
+    <aside class="col-12 col-lg-3">
+      <div class="card border-0 shadow-sm admin-sidebar sticky-lg-top">
+        <div>
+          <h5 class="mb-1">Admin Panel</h5>
+          <p class="mb-0 text-secondary">Product & order operations</p>
         </div>
-      </form>
-    </article>
 
-    <article class="card list-card">
-      <div class="list-head">
-        <h3>Catalog</h3>
-        <div class="list-filters">
-          <input [ngModel]="search()" (ngModelChange)="search.set($event)" placeholder="Search name or description" />
-          <select [ngModel]="selectedCategory()" (ngModelChange)="selectedCategory.set($event)">
-            <option value="all">All Categories</option>
-            <option value="men">Men</option>
-            <option value="women">Women</option>
-            <option value="kid">Kid</option>
-            <option value="new">New</option>
-          </select>
+        <hr class="my-3" />
+
+        <div class="d-grid gap-2 small fw-semibold">
+          <a class="admin-nav active">Dashboard</a>
+          <a class="admin-nav">Products</a>
+          <a class="admin-nav">Orders</a>
+        </div>
+
+        <hr class="my-3" />
+
+        <div class="d-grid gap-2">
+          <div class="metric-card">
+            <span>Total Products</span>
+            <strong>{{ products.length }}</strong>
+          </div>
+          <div class="metric-card">
+            <span>Total Orders</span>
+            <strong>{{ orders.length }}</strong>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="col-12 col-lg-9 d-grid gap-3">
+      <div class="card border-0 shadow-sm">
+        <div class="d-flex flex-wrap justify-content-between align-items-start gap-3">
+          <div>
+            <h3 class="h4 mb-1">Store Administration</h3>
+            <p class="text-secondary mb-0">Professional workspace for product CRUD and order tracking.</p>
+          </div>
+          <button class="btn btn-outline-secondary" (click)="logout()">Logout</button>
         </div>
       </div>
 
-      <div *ngIf="filteredProducts().length === 0" class="empty">No matching products found.</div>
+      <div class="card border-0 shadow-sm">
+        <h4 class="h5 mb-3">Create Product</h4>
 
-      <table *ngIf="filteredProducts().length > 0" class="data-table">
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Category</th>
-          <th>Price</th>
-          <th>Actions</th>
-        </tr>
-        <tr *ngFor="let product of filteredProducts()">
-          <td>{{ product.id }}</td>
-          <td>
-            <strong>{{ product.name }}</strong>
-            <p class="description">{{ product.description }}</p>
-          </td>
-          <td><span class="chip">{{ product.category }}</span></td>
-          <td>{{ product.price | currency:'INR' }}</td>
-          <td class="row-actions">
-            <button class="btn" (click)="editProduct(product)">Edit</button>
-            <button class="btn btn-danger" (click)="deleteProduct(product.id)">Delete</button>
-          </td>
-        </tr>
-      </table>
-    </article>
-  </section>
+        <form (ngSubmit)="addProduct()" #addForm="ngForm" class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Product Name</label>
+            <input class="form-control" name="name" [(ngModel)]="form.name" placeholder="Night Repair Cream" required />
+          </div>
 
-  <section *ngIf="activeTab() === 'orders'" class="card">
-    <div class="list-head">
-      <h3>Order Management</h3>
-      <p>{{ orders.length }} order(s)</p>
+          <div class="col-md-3">
+            <label class="form-label">Category</label>
+            <select class="form-select" name="category" [(ngModel)]="form.category" required>
+              <option value="men">Men</option>
+              <option value="women">Women</option>
+              <option value="kid">Kid</option>
+              <option value="new">New</option>
+            </select>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Price (₹)</label>
+            <input class="form-control" name="price" type="number" [(ngModel)]="form.price" placeholder="699" required />
+          </div>
+
+          <div class="col-md-12">
+            <label class="form-label">Image URL</label>
+            <input class="form-control" name="image" [(ngModel)]="form.image" placeholder="https://..." required />
+          </div>
+
+          <div class="col-md-12">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" rows="3" name="description" [(ngModel)]="form.description" placeholder="Short product summary" required></textarea>
+          </div>
+
+          <div class="col-12 d-flex justify-content-end">
+            <button class="btn btn-primary" [disabled]="!addForm.form.valid">Create Product</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card border-0 shadow-sm">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h4 class="h5 mb-0">Products</h4>
+          <span class="badge text-bg-primary-subtle text-primary-emphasis">{{ products.length }} items</span>
+        </div>
+
+        <div *ngIf="products.length === 0" class="empty-state">No products found.</div>
+
+        <div class="table-responsive" *ngIf="products.length > 0">
+          <table class="table table-hover align-middle mb-0">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th class="text-end">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let product of products">
+                <td>#{{ product.id }}</td>
+                <td class="fw-semibold">{{ product.name }}</td>
+                <td><span class="badge text-bg-light text-capitalize">{{ product.category }}</span></td>
+                <td>{{ product.price | currency:'INR' }}</td>
+                <td class="text-end">
+                  <button class="btn btn-sm btn-outline-danger" (click)="deleteProduct(product.id)">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card border-0 shadow-sm">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h4 class="h5 mb-0">Orders</h4>
+          <span class="badge text-bg-primary-subtle text-primary-emphasis">{{ orders.length }} orders</span>
+        </div>
+
+        <div *ngIf="orders.length === 0" class="empty-state">No orders yet.</div>
+
+        <div class="table-responsive" *ngIf="orders.length > 0">
+          <table class="table table-hover align-middle mb-0">
+            <thead>
+              <tr>
+                <th>Order</th>
+                <th>Customer</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let order of orders">
+                <td>#{{ order.id }}</td>
+                <td class="fw-semibold">{{ order.customerName }}</td>
+                <td>{{ order.total | currency:'INR' }}</td>
+                <td>
+                  <span
+                    class="badge"
+                    [class.text-bg-success]="order.status.toLowerCase() === 'completed'"
+                    [class.text-bg-warning]="order.status.toLowerCase() !== 'completed'"
+                  >
+                    {{ order.status }}
+                  </span>
+                </td>
+                <td>{{ order.createdAt | date:'medium' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
-
-    <div *ngIf="orders.length === 0" class="empty">No orders yet.</div>
-
-    <table *ngIf="orders.length > 0" class="data-table">
-      <tr>
-        <th>Order</th>
-        <th>Customer</th>
-        <th>Email</th>
-        <th>Total</th>
-        <th>Status</th>
-        <th>Date</th>
-      </tr>
-      <tr *ngFor="let order of orders.slice().reverse()">
-        <td>#{{ order.id }}</td>
-        <td>{{ order.customerName }}</td>
-        <td>{{ order.email }}</td>
-        <td>{{ order.total | currency:'INR' }}</td>
-        <td><span class="chip success">{{ order.status }}</span></td>
-        <td>{{ order.createdAt | date:'medium' }}</td>
-      </tr>
-    </table>
-  </section>
+  </div>
 </section>
