@@ -14,8 +14,14 @@
       <a routerLink="/women">Women</a>
       <a routerLink="/kid">Kid</a>
       <a routerLink="/new">New</a>
-      <a routerLink="/cart">Cart</a>
-      <a routerLink="/profile">Profile</a>
+      <a routerLink="/cart" *ngIf="isCustomerLoggedIn()">Cart</a>
+      <a routerLink="/wishlist" *ngIf="isCustomerLoggedIn()">Wishlist</a>
+      <a routerLink="/profile" *ngIf="isCustomerLoggedIn()">Profile</a>
+      <a routerLink="/login" *ngIf="!isCustomerLoggedIn()">Login</a>
+      <a routerLink="/register" *ngIf="!isCustomerLoggedIn()">Register</a>
+      <button class="btn btn-link logout-link" *ngIf="isCustomerLoggedIn()" (click)="logoutCustomer()">
+        Logout ({{ customerName() }})
+      </button>
       <a routerLink="/admin/login">Admin</a>
     </nav>
 

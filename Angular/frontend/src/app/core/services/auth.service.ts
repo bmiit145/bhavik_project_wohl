@@ -38,6 +38,7 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.userKey);
+    window.dispatchEvent(new Event('wohl-auth-logout'));
   }
 
   getUser(): AuthUser | null {

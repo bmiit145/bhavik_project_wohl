@@ -3,6 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
+import { CartService } from '../../core/services/cart.service';
+import { WishlistService } from '../../core/services/wishlist.service';
 
 @Component({
   standalone: true,
@@ -18,6 +20,8 @@ export class LoginComponent {
 
   constructor(
     private readonly authService: AuthService,
+    private readonly cartService: CartService,
+    private readonly wishlistService: WishlistService,
     private readonly router: Router
   ) {}
 
@@ -32,6 +36,8 @@ export class LoginComponent {
     this.loading.set(true);
     this.authService.login(this.email, this.password).subscribe({
       next: () => {
+        this.cartService.sync();
+        this.wishlistService.sync();
         this.loading.set(false);
         void this.router.navigateByUrl('/');
       },

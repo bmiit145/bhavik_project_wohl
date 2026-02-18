@@ -1,1 +1,11 @@
-<section class="card"><h2>Wishlist</h2><p>Migrated target for <code>wishlist.php</code>.</p></section>
+<section class="card">
+	<h2>Wishlist</h2>
+	<p *ngIf="wishlist.items().length === 0">Your wishlist is empty.</p>
+
+	<ul>
+		<li *ngFor="let item of wishlist.items()">
+			{{ item.name }} - {{ item.price | currency:'INR' }}
+			<button class="btn" (click)="wishlist.remove(item.id)">Remove</button>
+		</li>
+	</ul>
+</section>

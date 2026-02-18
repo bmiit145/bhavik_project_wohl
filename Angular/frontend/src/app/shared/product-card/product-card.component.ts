@@ -3,6 +3,7 @@ import { CurrencyPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Product } from '../../core/models/product.model';
 import { CartService } from '../../core/services/cart.service';
+import { WishlistService } from '../../core/services/wishlist.service';
 
 @Component({
   selector: 'app-product-card',
@@ -14,9 +15,16 @@ import { CartService } from '../../core/services/cart.service';
 export class ProductCardComponent {
   @Input({ required: true }) product!: Product;
 
-  constructor(private readonly cartService: CartService) {}
+  constructor(
+    private readonly cartService: CartService,
+    private readonly wishlistService: WishlistService
+  ) {}
 
   addToCart(): void {
     this.cartService.add(this.product);
+  }
+
+  addToWishlist(): void {
+    this.wishlistService.add(this.product.id);
   }
 }

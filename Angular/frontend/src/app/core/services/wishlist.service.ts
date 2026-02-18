@@ -4,7 +4,7 @@ import { Product } from '../models/product.model';
 import { AuthService } from './auth.service';
 
 @Injectable({ providedIn: 'root' })
-export class CartService {
+export class WishlistService {
   private readonly _items = signal<Product[]>([]);
   readonly items = this._items.asReadonly();
 
@@ -21,40 +21,29 @@ export class CartService {
       return;
     }
 
-    this.http.get<Product[]>('/cart').subscribe({
+    this.http.get<Product[]>('/wishlist').subscribe({
       next: (items) => this._items.set(items),
       error: () => this._items.set([])
     });
   }
 
-  add(item: Product): void {
+  add(productId: number): void {
     if (!this.authService.getToken()) {
       return;
     }
 
-    this.http.post('/cart/items', { productId: item.id }).subscribe({
+    this.http.post('/wishlist/items', { productId }).subscribe({
       next: () => this.sync()
     });
   }
 
-  remove(id: number): void {
+  remove(productId: number): void {
     if (!this.authService.getToken()) {
       return;
     }
 
-    this.http.delete(`/cart/items/${id}`).subscribe({
+    this.http.delete(`/wishlist/items/${productId}`).subscribe({
       next: () => this.sync()
-    });
-  }
-
-  clear(): void {
-    if (!this.authService.getToken()) {
-      this._items.set([]);
-      return;
-    }
-
-    this.http.delete('/cart').subscribe({
-      next: () => this._items.set([])
     });
   }
 }

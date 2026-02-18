@@ -4,6 +4,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ProductService } from '../../core/services/product.service';
 import { Product } from '../../core/models/product.model';
 import { CartService } from '../../core/services/cart.service';
+import { WishlistService } from '../../core/services/wishlist.service';
 
 @Component({
   standalone: true,
@@ -19,7 +20,8 @@ export class ProductDetailsComponent implements OnInit {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly productService: ProductService,
-    private readonly cartService: CartService
+    private readonly cartService: CartService,
+    private readonly wishlistService: WishlistService
   ) {}
 
   ngOnInit(): void {
@@ -43,6 +45,13 @@ export class ProductDetailsComponent implements OnInit {
     const product = this.product();
     if (product) {
       this.cartService.add(product);
+    }
+  }
+
+  addToWishlist(): void {
+    const product = this.product();
+    if (product) {
+      this.wishlistService.add(product.id);
     }
   }
 }

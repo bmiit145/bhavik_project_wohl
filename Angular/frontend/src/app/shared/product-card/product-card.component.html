@@ -7,6 +7,7 @@
   <strong>{{ product.price | currency:'INR' }}</strong>
   <div class="product-actions">
     <button class="btn btn-primary" (click)="addToCart()">Add to cart</button>
+    <button class="btn" (click)="addToWishlist()">Wishlist</button>
     <a class="btn" [routerLink]="['/product', product.id]">View details</a>
   </div>
 </article>

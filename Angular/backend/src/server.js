@@ -7,6 +7,7 @@ const morgan = require('morgan');
 const apiRoutes = require('./routes');
 const { connectToDatabase } = require('./config/database');
 const Product = require('./models/product.model');
+const WishlistItem = require('./models/wishlist-item.model');
 const { seedProducts } = require('./data/seed-products');
 
 const app = express();
@@ -33,6 +34,18 @@ const port = process.env.PORT || 3000;
 async function bootstrap() {
   try {
     await connectToDatabase();
+
+    const wishlistCollection = WishlistItem.collection;
+    const wishlistIndexes = await wishlistCollection.indexes();
+    const legacyProductIndex = wishlistIndexes.find(
+      (index) => index.name === 'productId_1' && index.unique === true
+    );
+
+    if (legacyProductIndex) {
+      await wishlistCollection.dropIndex('productId_1');
+    }
+
+    await WishlistItem.syncIndexes();
 
     const productCount = await Product.countDocuments();
     if (productCount === 0) {
