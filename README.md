@@ -1,28 +1,17 @@
 # bhavik_project_wohl
 
-This repository is now organized for PHP → Angular migration.
+Repository structure has now been organized for migration:
 
-## Structure
+## Folder Structure
 
-- `PHP/` → existing working PHP e-commerce code.
-- `Angular/frontend/` → Angular storefront conversion.
-- `Angular/backend/` → API backend replacement.
-- `docs/` → migration docs and route map.
+- `Angular/`
+  - `frontend/` → new Angular frontend (to be implemented)
+  - `backend/` → new backend API server (to be implemented)
+- `PHP/` → existing working PHP e-commerce codebase (legacy app moved here)
+- `docs/` → migration and architecture documentation
 
-## Quick start
+## Migration Guide
 
-### Backend
-```bash
-cd Angular/backend
-npm install
-npm run dev
-```
+For the full modernization plan, see:
 
-### Frontend
-```bash
-cd Angular/frontend
-npm install
-npm start
-```
-
-Frontend consumes API from `http://localhost:3000/api/v1`.
+- `docs/angular-backend-modernization-guide.md`

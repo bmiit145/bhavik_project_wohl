@@ -1,18 +1,11 @@
-# Wohl Angular Frontend
+# Frontend (Angular)
 
-This frontend is structured to mirror the legacy PHP routes:
+Planned responsibilities:
+- Public storefront UI
+- Auth, cart, checkout, profile pages
+- API integration with `../backend`
 
-- `/` (index.php)
-- `/shop`, `/men`, `/women`, `/kid`, `/new`
-- `/cart`, `/checkout`, `/wishlist`
-- `/login`, `/register`, `/forgot-password`
-- `/profile`, `/orders`, `/about`, `/contact`
-
-## Commands
-
+Quick start (when implementing):
 ```bash
-npm install
-npm start
+ng new frontend --routing --style=scss
 ```
-
-The app expects backend API at `http://localhost:3000/api/v1`.
