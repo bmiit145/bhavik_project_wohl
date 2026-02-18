@@ -1,8 +1,12 @@
-# Angular Workspace
+# Angular Migration Workspace
 
-This folder contains the new modernized application layers:
+This workspace now contains a functional starter conversion of the PHP project:
 
-- `frontend/` → Angular web app (customer storefront/admin UI)
-- `backend/` → API server (recommended: NestJS/Node.js)
+- `frontend/` → Angular application with routes mapped from legacy PHP pages.
+- `backend/` → Node/Express API with starter endpoints for products, cart, wishlist, auth, and checkout.
 
-Use this workspace to build the migrated system while the legacy PHP app remains in `../PHP/`.
+## Run plan
+
+1. Install dependencies in both folders.
+2. Start backend on port `3000`.
+3. Start frontend and verify route-level migration.

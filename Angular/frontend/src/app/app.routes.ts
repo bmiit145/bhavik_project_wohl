@@ -1,0 +1,38 @@
+import { Routes } from '@angular/router';
+import { HomeComponent } from './pages/home/home.component';
+import { ShopComponent } from './pages/shop/shop.component';
+import { CartComponent } from './pages/cart/cart.component';
+import { CheckoutComponent } from './pages/checkout/checkout.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { LoginComponent } from './pages/login/login.component';
+import { RegisterComponent } from './pages/register/register.component';
+import { ContactComponent } from './pages/contact/contact.component';
+import { AboutComponent } from './pages/about/about.component';
+import { WishlistComponent } from './pages/wishlist/wishlist.component';
+import { MenComponent } from './pages/men/men.component';
+import { WomenComponent } from './pages/women/women.component';
+import { KidComponent } from './pages/kid/kid.component';
+import { NewArrivalsComponent } from './pages/new-arrivals/new-arrivals.component';
+import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
+import { OrdersComponent } from './pages/orders/orders.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
+
+export const appRoutes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'shop', component: ShopComponent },
+  { path: 'cart', component: CartComponent },
+  { path: 'checkout', component: CheckoutComponent },
+  { path: 'profile', component: ProfileComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'contact', component: ContactComponent },
+  { path: 'about', component: AboutComponent },
+  { path: 'wishlist', component: WishlistComponent },
+  { path: 'men', component: MenComponent },
+  { path: 'women', component: WomenComponent },
+  { path: 'kid', component: KidComponent },
+  { path: 'new', component: NewArrivalsComponent },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: 'orders', component: OrdersComponent },
+  { path: '**', component: NotFoundComponent }
+];

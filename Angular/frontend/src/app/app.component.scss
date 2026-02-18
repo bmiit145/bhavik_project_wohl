@@ -1,0 +1,8 @@
+.topbar { background: #fff; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 10; }
+.nav { display: flex; align-items: center; justify-content: space-between; padding: .85rem 0; }
+.logo { font-weight: 700; }
+nav { display: flex; gap: .75rem; flex-wrap: wrap; }
+nav a { padding: .35rem .55rem; border-radius: 8px; }
+nav a:hover { background: #f1f1f1; }
+.page-wrap { min-height: calc(100vh - 120px); padding: 1.2rem 0 2rem; }
+.footer { padding: 1rem 0; background: #fff; border-top: 1px solid #eee; }
