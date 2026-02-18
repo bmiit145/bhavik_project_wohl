@@ -11,7 +11,8 @@ import { Router } from '@angular/router';
   standalone: true,
   selector: 'app-admin-dashboard',
   imports: [NgFor, NgIf, FormsModule, CurrencyPipe, DatePipe],
-  templateUrl: './admin-dashboard.component.html'
+  templateUrl: './admin-dashboard.component.html',
+  styleUrl: './admin-dashboard.component.scss'
 })
 export class AdminDashboardComponent implements OnInit {
   products: Product[] = [];

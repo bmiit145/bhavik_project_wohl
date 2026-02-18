@@ -1,0 +1,43 @@
+.admin-shell {
+  .card {
+    border-radius: 16px;
+  }
+}
+
+.admin-sidebar {
+  top: 84px;
+}
+
+.admin-nav {
+  padding: 0.55rem 0.75rem;
+  border-radius: 10px;
+  color: #475569;
+  background: #f8fafc;
+  text-decoration: none;
+}
+
+.admin-nav.active {
+  background: #e0e7ff;
+  color: #1d4ed8;
+}
+
+.metric-card {
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 0.7rem 0.8rem;
+
+  span {
+    display: block;
+    font-size: 0.74rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #64748b;
+    margin-bottom: 0.2rem;
+  }
+
+  strong {
+    font-size: 1.35rem;
+    color: #0f172a;
+  }
+}

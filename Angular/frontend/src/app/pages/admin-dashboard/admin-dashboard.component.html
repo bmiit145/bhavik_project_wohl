@@ -1,60 +1,159 @@
-<section class="grid" style="gap: 1.5rem;">
-  <div class="card" style="display:flex; justify-content: space-between; align-items:center;">
-    <h2>Admin Panel</h2>
-    <button class="btn" (click)="logout()">Logout</button>
-  </div>
+<section class="admin-shell">
+  <div class="row g-3">
+    <aside class="col-12 col-lg-3">
+      <div class="card border-0 shadow-sm admin-sidebar sticky-lg-top">
+        <div>
+          <h5 class="mb-1">Admin Panel</h5>
+          <p class="mb-0 text-secondary">Product & order operations</p>
+        </div>
 
-  <div class="card">
-    <h3>Add Product</h3>
-    <form class="grid" (ngSubmit)="addProduct()" #addForm="ngForm">
-      <input name="name" [(ngModel)]="form.name" placeholder="Name" required />
-      <input name="category" [(ngModel)]="form.category" placeholder="Category (men/women/kid/new)" required />
-      <input name="price" type="number" [(ngModel)]="form.price" placeholder="Price" required />
-      <input name="image" [(ngModel)]="form.image" placeholder="Image URL" required />
-      <textarea name="description" [(ngModel)]="form.description" placeholder="Description" required></textarea>
-      <button class="btn btn-primary" [disabled]="!addForm.form.valid">Create Product</button>
-    </form>
-  </div>
+        <hr class="my-3" />
 
-  <div class="card">
-    <h3>Products</h3>
-    <div *ngIf="products.length === 0">No products found.</div>
-    <table *ngIf="products.length > 0" style="width:100%; border-collapse: collapse;">
-      <tr>
-        <th align="left">ID</th>
-        <th align="left">Name</th>
-        <th align="left">Category</th>
-        <th align="left">Price</th>
-        <th align="left">Action</th>
-      </tr>
-      <tr *ngFor="let product of products">
-        <td>{{ product.id }}</td>
-        <td>{{ product.name }}</td>
-        <td>{{ product.category }}</td>
-        <td>{{ product.price | currency:'INR' }}</td>
-        <td><button class="btn" (click)="deleteProduct(product.id)">Delete</button></td>
-      </tr>
-    </table>
-  </div>
+        <div class="d-grid gap-2 small fw-semibold">
+          <a class="admin-nav active">Dashboard</a>
+          <a class="admin-nav">Products</a>
+          <a class="admin-nav">Orders</a>
+        </div>
 
-  <div class="card">
-    <h3>Orders</h3>
-    <div *ngIf="orders.length === 0">No orders yet.</div>
-    <table *ngIf="orders.length > 0" style="width:100%; border-collapse: collapse;">
-      <tr>
-        <th align="left">Order</th>
-        <th align="left">Customer</th>
-        <th align="left">Total</th>
-        <th align="left">Status</th>
-        <th align="left">Date</th>
-      </tr>
-      <tr *ngFor="let order of orders">
-        <td>#{{ order.id }}</td>
-        <td>{{ order.customerName }}</td>
-        <td>{{ order.total | currency:'INR' }}</td>
-        <td>{{ order.status }}</td>
-        <td>{{ order.createdAt | date:'medium' }}</td>
-      </tr>
-    </table>
+        <hr class="my-3" />
+
+        <div class="d-grid gap-2">
+          <div class="metric-card">
+            <span>Total Products</span>
+            <strong>{{ products.length }}</strong>
+          </div>
+          <div class="metric-card">
+            <span>Total Orders</span>
+            <strong>{{ orders.length }}</strong>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="col-12 col-lg-9 d-grid gap-3">
+      <div class="card border-0 shadow-sm">
+        <div class="d-flex flex-wrap justify-content-between align-items-start gap-3">
+          <div>
+            <h3 class="h4 mb-1">Store Administration</h3>
+            <p class="text-secondary mb-0">Professional workspace for product CRUD and order tracking.</p>
+          </div>
+          <button class="btn btn-outline-secondary" (click)="logout()">Logout</button>
+        </div>
+      </div>
+
+      <div class="card border-0 shadow-sm">
+        <h4 class="h5 mb-3">Create Product</h4>
+
+        <form (ngSubmit)="addProduct()" #addForm="ngForm" class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Product Name</label>
+            <input class="form-control" name="name" [(ngModel)]="form.name" placeholder="Night Repair Cream" required />
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Category</label>
+            <select class="form-select" name="category" [(ngModel)]="form.category" required>
+              <option value="men">Men</option>
+              <option value="women">Women</option>
+              <option value="kid">Kid</option>
+              <option value="new">New</option>
+            </select>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Price (₹)</label>
+            <input class="form-control" name="price" type="number" [(ngModel)]="form.price" placeholder="699" required />
+          </div>
+
+          <div class="col-md-12">
+            <label class="form-label">Image URL</label>
+            <input class="form-control" name="image" [(ngModel)]="form.image" placeholder="https://..." required />
+          </div>
+
+          <div class="col-md-12">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" rows="3" name="description" [(ngModel)]="form.description" placeholder="Short product summary" required></textarea>
+          </div>
+
+          <div class="col-12 d-flex justify-content-end">
+            <button class="btn btn-primary" [disabled]="!addForm.form.valid">Create Product</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card border-0 shadow-sm">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h4 class="h5 mb-0">Products</h4>
+          <span class="badge text-bg-primary-subtle text-primary-emphasis">{{ products.length }} items</span>
+        </div>
+
+        <div *ngIf="products.length === 0" class="empty-state">No products found.</div>
+
+        <div class="table-responsive" *ngIf="products.length > 0">
+          <table class="table table-hover align-middle mb-0">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th class="text-end">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let product of products">
+                <td>#{{ product.id }}</td>
+                <td class="fw-semibold">{{ product.name }}</td>
+                <td><span class="badge text-bg-light text-capitalize">{{ product.category }}</span></td>
+                <td>{{ product.price | currency:'INR' }}</td>
+                <td class="text-end">
+                  <button class="btn btn-sm btn-outline-danger" (click)="deleteProduct(product.id)">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card border-0 shadow-sm">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h4 class="h5 mb-0">Orders</h4>
+          <span class="badge text-bg-primary-subtle text-primary-emphasis">{{ orders.length }} orders</span>
+        </div>
+
+        <div *ngIf="orders.length === 0" class="empty-state">No orders yet.</div>
+
+        <div class="table-responsive" *ngIf="orders.length > 0">
+          <table class="table table-hover align-middle mb-0">
+            <thead>
+              <tr>
+                <th>Order</th>
+                <th>Customer</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let order of orders">
+                <td>#{{ order.id }}</td>
+                <td class="fw-semibold">{{ order.customerName }}</td>
+                <td>{{ order.total | currency:'INR' }}</td>
+                <td>
+                  <span
+                    class="badge"
+                    [class.text-bg-success]="order.status.toLowerCase() === 'completed'"
+                    [class.text-bg-warning]="order.status.toLowerCase() !== 'completed'"
+                  >
+                    {{ order.status }}
+                  </span>
+                </td>
+                <td>{{ order.createdAt | date:'medium' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
