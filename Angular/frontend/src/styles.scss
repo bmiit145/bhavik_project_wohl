@@ -1,0 +1,21 @@
+:root {
+  --primary: #2c2c2c;
+  --accent: #ac5e3b;
+  --bg: #f7f7f7;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Inter, Arial, sans-serif;
+  background: var(--bg);
+  color: #1f1f1f;
+}
+
+a { color: inherit; text-decoration: none; }
+.container { width: min(1100px, 92%); margin: 0 auto; }
+.card { background: white; border-radius: 14px; padding: 1rem; box-shadow: 0 8px 24px rgba(0,0,0,.05); }
+.btn { border: none; border-radius: 10px; padding: .65rem 1rem; cursor: pointer; }
+.btn-primary { background: var(--accent); color: #fff; }
+.grid { display: grid; gap: 1rem; }
+.grid-3 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }

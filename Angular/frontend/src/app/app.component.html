@@ -1,0 +1,22 @@
+<header class="topbar">
+  <div class="container nav">
+    <a routerLink="/" class="logo">Wohl Reactions</a>
+    <nav>
+      <a routerLink="/shop">Shop</a>
+      <a routerLink="/men">Men</a>
+      <a routerLink="/women">Women</a>
+      <a routerLink="/kid">Kid</a>
+      <a routerLink="/wishlist">Wishlist</a>
+      <a routerLink="/cart">Cart</a>
+      <a routerLink="/profile">Profile</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container page-wrap">
+  <router-outlet />
+</main>
+
+<footer class="footer">
+  <div class="container">© {{ year }} Wohl Reactions</div>
+</footer>

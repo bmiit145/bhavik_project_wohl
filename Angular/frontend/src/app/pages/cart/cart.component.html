@@ -1,0 +1,10 @@
+<section class="card">
+  <h2>Cart</h2>
+  <p *ngIf="cart.items().length === 0">Your cart is empty.</p>
+  <ul>
+    <li *ngFor="let item of cart.items()">
+      {{ item.name }} - {{ item.price | currency:'INR' }}
+      <button class="btn" (click)="cart.remove(item.id)">Remove</button>
+    </li>
+  </ul>
+</section>
