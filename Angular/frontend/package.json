@@ -25,6 +25,7 @@
     "@angular/router": "^19.2.19",
     "bootstrap": "^5.3.3",
     "rxjs": "^7.8.1",
+    "sweetalert2": "^11.26.24",
     "tslib": "^2.6.2",
     "zone.js": "^0.15.1"
   },

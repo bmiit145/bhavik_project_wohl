@@ -35,7 +35,7 @@ async function createProduct(req, res) {
 
     // ✅ HANDLE IMAGE UPLOAD
     const imagePath = req.file
-      ? `http://localhost:3000/uploads/${req.file.filename}`
+      ? `/uploads/${req.file.filename}`
       : payload.image; // fallback (if no file)
 
     const product = await Product.create({
@@ -80,7 +80,7 @@ async function updateProduct(req, res) {
 
     // ✅ HANDLE IMAGE UPDATE
     const imagePath = req.file
-      ? `http://localhost:3000/uploads/${req.file.filename}`
+      ? `/uploads/${req.file.filename}`
       : existingProduct.image;
 
     const updated = await Product.findOneAndUpdate(

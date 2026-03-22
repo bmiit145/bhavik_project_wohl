@@ -14,7 +14,9 @@ const WishlistItem = require('./models/wishlist-item.model');
 const { seedProducts } = require('./data/seed-products');
 
 const app = express();
-app.use(helmet());
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" }
+}));
 
 const corsOrigin = process.env.CORS_ORIGIN;
 if (corsOrigin) {

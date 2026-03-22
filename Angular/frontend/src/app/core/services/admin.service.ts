@@ -15,22 +15,26 @@ export class AdminService {
   }
 
   getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>('/api/v1/admin/products', { headers: this.headers() });
+    return this.http.get<Product[]>('/admin/products', { headers: this.headers() });
   }
 
-  createProduct(payload: Omit<Product, 'id'>): Observable<Product> {
-    return this.http.post<Product>('/api/v1/admin/products', payload, { headers: this.headers() });
+  createProduct(formData: FormData): Observable<Product> {
+    return this.http.post<Product>('/admin/products', formData, {
+      headers: new HttpHeaders({ 'x-admin-token': this.adminToken })
+    });
   }
 
-  updateProduct(id: number, payload: Omit<Product, 'id'>): Observable<Product> {
-    return this.http.put<Product>(`/api/v1/admin/products/${id}`, payload, { headers: this.headers() });
+  updateProduct(id: number, formData: FormData): Observable<Product> {
+    return this.http.put<Product>(`/admin/products/${id}`, formData, {
+      headers: new HttpHeaders({ 'x-admin-token': this.adminToken })
+    });
   }
 
   deleteProduct(id: number): Observable<void> {
-    return this.http.delete<void>(`/api/v1/admin/products/${id}`, { headers: this.headers() });
+    return this.http.delete<void>(`/admin/products/${id}`, { headers: this.headers() });
   }
 
   getOrders(): Observable<Order[]> {
-    return this.http.get<Order[]>('/api/v1/admin/orders', { headers: this.headers() });
+    return this.http.get<Order[]>('/admin/orders', { headers: this.headers() });
   }
 }
