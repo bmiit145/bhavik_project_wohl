@@ -1,27 +1,70 @@
-<section class="card">
-  <h2>Checkout</h2>
-  <p *ngIf="cart.items().length === 0">Your cart is empty.</p>
+<div class="container py-5">
+  <div class="row g-5 mt-4">
+    <!-- Order Summary -->
+    <div class="col-md-5 col-lg-4 order-md-last">
+      <h4 class="d-flex justify-content-between align-items-center mb-3">
+        <span class="text-primary fw-bold">Order Summary</span>
+        <span class="badge bg-primary rounded-pill">{{ cart.items().length }}</span>
+      </h4>
+      <ul class="list-group mb-3 shadow-sm rounded-4 overflow-hidden">
+        <li *ngFor="let item of cart.items()" class="list-group-item d-flex justify-content-between lh-sm py-3">
+          <div>
+            <h6 class="my-0 fw-bold small text-truncate" style="max-width: 200px;">{{ item.name }}</h6>
+            <small class="text-secondary">Qty: {{ item.quantity || 1 }}</small>
+          </div>
+          <span class="text-secondary small">{{ (item.price * (item.quantity || 1)) | currency:'INR' }}</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between bg-light py-3 border-top">
+          <span class="fw-bold">Total Amount</span>
+          <strong class="text-primary fs-5">{{ cart.total() | currency:'INR' }}</strong>
+        </li>
+      </ul>
+    </div>
 
-  <form *ngIf="cart.items().length > 0" (ngSubmit)="placeOrder()" #checkoutForm="ngForm" class="grid">
-    <label>
-      Name
-      <input name="customerName" [(ngModel)]="customerName" required />
-    </label>
+    <!-- Checkout Form -->
+    <div class="col-md-7 col-lg-8">
+      <h2 class="h4 mb-4 fw-bold">Shipping Information</h2>
+      
+      <div *ngIf="cart.items().length === 0" class="p-5 text-center bg-light rounded-4 border">
+        <p class="text-secondary mb-3">Your shopping cart is currently empty.</p>
+        <a routerLink="/shop" class="btn btn-primary px-4 shadow-sm">Go Shopping</a>
+      </div>
 
-    <label>
-      Email
-      <input name="email" type="email" [(ngModel)]="email" required />
-    </label>
+      <form *ngIf="cart.items().length > 0" (ngSubmit)="placeOrder()" #checkoutForm="ngForm" class="needs-validation" novalidate>
+        <div class="row g-4">
+          <div class="col-12">
+            <label for="name" class="form-label fw-semibold small text-secondary">Full Name</label>
+            <input type="text" class="form-control rounded-3 py-2 px-3 border-2" id="name" name="customerName" [(ngModel)]="customerName" required #nameModel="ngModel" [class.is-invalid]="nameModel.touched && nameModel.invalid" placeholder="John Doe">
+            <div class="invalid-feedback">A full name is required for delivery.</div>
+          </div>
 
-    <label>
-      Address
-      <textarea name="address" [(ngModel)]="address" required></textarea>
-    </label>
+          <div class="col-12">
+            <label for="email" class="form-label fw-semibold small text-secondary">Email Address</label>
+            <input type="email" class="form-control rounded-3 py-2 px-3 border-2" id="email" name="email" [(ngModel)]="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" #emailModel="ngModel" [class.is-invalid]="emailModel.touched && emailModel.invalid" placeholder="john@example.com">
+            <div class="invalid-feedback">Please enter a valid email address for order confirmation.</div>
+          </div>
 
-    <p><strong>Total:</strong> {{ total | currency:'INR' }}</p>
+          <div class="col-12">
+            <label for="address" class="form-label fw-semibold small text-secondary">Delivery Address</label>
+            <textarea class="form-control rounded-3 py-2 px-3 border-2" id="address" name="address" rows="3" [(ngModel)]="address" required #addressModel="ngModel" [class.is-invalid]="addressModel.touched && addressModel.invalid" placeholder="123 Street, City, ZIP"></textarea>
+            <div class="invalid-feedback">Please provide a complete shipping address.</div>
+          </div>
+        </div>
 
-    <button class="btn btn-primary" [disabled]="!checkoutForm.form.valid">Place order</button>
-  </form>
+        <hr class="my-5 border-light">
 
-  <p *ngIf="status()">{{ status() }}</p>
-</section>
+        <div *ngIf="status()" class="alert mb-4 border-0 p-3 rounded-3" [ngClass]="status().includes('successfully') ? 'alert-success shadow-sm' : 'alert-danger'">
+          <div class="d-flex align-items-center gap-2">
+            <i class="bi" [ngClass]="status().includes('successfully') ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'"></i>
+            <span>{{ status() }}</span>
+          </div>
+        </div>
+
+        <button class="w-100 btn btn-primary btn-lg rounded-3 py-3 fw-bold shadow-sm transition-all" type="submit" [disabled]="!checkoutForm.form.valid || isSubmitting()">
+          <span *ngIf="isSubmitting()" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+          {{ isSubmitting() ? 'Processing Order...' : 'Place Secure Order' }}
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

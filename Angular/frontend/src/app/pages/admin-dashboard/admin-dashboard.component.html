@@ -184,13 +184,22 @@
                   <td class="fw-semibold">{{ order.customerName }}</td>
                   <td>{{ order.total | currency:'INR' }}</td>
                   <td>
-                    <span
-                      class="badge"
-                      [class.text-bg-success]="order.status.toLowerCase() === 'completed'"
-                      [class.text-bg-warning]="order.status.toLowerCase() !== 'completed'"
-                    >
-                      {{ order.status }}
-                    </span>
+                    <select class="form-select form-select-sm fw-semibold border-0 shadow-sm" 
+                            [value]="order.status" 
+                            (change)="updateStatus(order.id, $event)"
+                            [ngClass]="{
+                              'text-bg-warning-subtle text-warning-emphasis': order.status === 'placed',
+                              'text-bg-info-subtle text-info-emphasis': order.status === 'confirmed',
+                              'text-bg-primary-subtle text-primary-emphasis': order.status === 'shipped',
+                              'text-bg-success-subtle text-success-emphasis': order.status === 'delivered',
+                              'text-bg-danger-subtle text-danger-emphasis': order.status === 'cancelled'
+                            }">
+                      <option value="placed">Placed</option>
+                      <option value="confirmed">Confirmed</option>
+                      <option value="shipped">Shipped</option>
+                      <option value="delivered">Delivered</option>
+                      <option value="cancelled">Cancelled</option>
+                    </select>
                   </td>
                   <td>{{ order.createdAt | date:'medium' }}</td>
                 </tr>

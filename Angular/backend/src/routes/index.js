@@ -3,16 +3,17 @@ const multer = require('multer');        // ✅ NEW
 const path = require('path');            // ✅ NEW
 
 const { listProducts, getProductById } = require('../controllers/product.controller');
-const { getCart, addToCart, removeFromCart, clearCart } = require('../controllers/cart.controller');
+const { getCart, addToCart, removeFromCart, updateCartItem, clearCart } = require('../controllers/cart.controller');
 const { getWishlist, addWishlist, removeWishlist } = require('../controllers/wishlist.controller');
 const { login, register } = require('../controllers/auth.controller');
-const { checkout } = require('../controllers/order.controller');
+const { checkout, getMyOrders } = require('../controllers/order.controller');
 const {
   listAdminProducts,
   createProduct,
   updateProduct,
   deleteProduct,
-  listOrders
+  listOrders,
+  updateOrderStatus
 } = require('../controllers/admin.controller');
 
 const { requireAdmin } = require('../middleware/admin-auth');
@@ -46,6 +47,7 @@ router.get('/products/:id', getProductById);
 
 router.get('/cart', requireUser, getCart);
 router.post('/cart/items', requireUser, addToCart);
+router.put('/cart/items/:id', requireUser, updateCartItem);
 router.delete('/cart/items/:id', requireUser, removeFromCart);
 router.delete('/cart', requireUser, clearCart);
 
@@ -56,7 +58,8 @@ router.delete('/wishlist/items/:id', requireUser, removeWishlist);
 router.post('/auth/login', login);
 router.post('/auth/register', register);
 
-router.post('/orders/checkout', checkout);
+router.post('/orders/checkout', requireUser, checkout);
+router.get('/orders', requireUser, getMyOrders);
 
 
 // ==========================
@@ -72,6 +75,7 @@ router.put('/admin/products/:id', requireAdmin, upload.single('image'), updatePr
 
 router.delete('/admin/products/:id', requireAdmin, deleteProduct);
 router.get('/admin/orders', requireAdmin, listOrders);
+router.put('/admin/orders/:id/status', requireAdmin, updateOrderStatus);
 
 
 module.exports = router;

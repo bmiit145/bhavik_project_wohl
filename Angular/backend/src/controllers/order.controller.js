@@ -3,15 +3,31 @@ const Order = require('../models/order.model');
 async function checkout(req, res) {
   try {
     const payload = req.body;
+    
+    // 1. Validation
+    if (!payload.customerName || !payload.customerName.trim()) {
+      return res.status(400).json({ message: 'Customer name is required' });
+    }
+    if (!payload.address || !payload.address.trim()) {
+      return res.status(400).json({ message: 'Delivery address is required' });
+    }
+    if (!payload.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
+      return res.status(400).json({ message: 'Valid email is required' });
+    }
+    if (!payload.items || !Array.isArray(payload.items) || payload.items.length === 0) {
+      return res.status(400).json({ message: 'Cart cannot be empty' });
+    }
+
     const maxOrder = await Order.findOne({}).sort({ id: -1 }).select('id -_id').lean();
     const nextId = (maxOrder?.id || 0) + 1;
 
     const order = await Order.create({
       id: nextId,
-      customerName: payload.customerName,
-      email: payload.email,
-      address: payload.address,
-      items: payload.items || [],
+      userId: req.user.userId,
+      customerName: payload.customerName.trim(),
+      email: payload.email.trim().toLowerCase(),
+      address: payload.address.trim(),
+      items: payload.items,
       total: payload.total || 0,
       status: 'placed'
     });
@@ -34,4 +50,13 @@ async function checkout(req, res) {
   }
 }
 
-module.exports = { checkout };
+async function getMyOrders(req, res) {
+  try {
+    const orders = await Order.find({ userId: req.user.userId }).sort({ createdAt: -1 });
+    return res.json(orders);
+  } catch (error) {
+    return res.status(500).json({ message: 'Failed to fetch orders' });
+  }
+}
+
+module.exports = { checkout, getMyOrders };

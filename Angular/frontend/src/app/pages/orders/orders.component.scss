@@ -1,0 +1,12 @@
+.border-end-md {
+  @media (min-width: 768px) {
+    border-right: 1px solid #e9ecef !important;
+  }
+}
+
+.card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  &:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+  }
+}

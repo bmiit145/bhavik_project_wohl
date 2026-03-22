@@ -155,6 +155,29 @@ export class AdminDashboardComponent implements OnInit {
     });
   }
 
+  updateStatus(id: number, event: Event): void {
+    const select = event.target as HTMLSelectElement;
+    const status = select.value;
+    
+    this.adminService.updateOrderStatus(id, status).subscribe({
+      next: () => {
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          icon: 'success',
+          title: 'Status updated',
+          showConfirmButton: false,
+          timer: 1500
+        });
+        this.loadOrders();
+      },
+      error: () => {
+        Swal.fire('Error', 'Failed to update order status', 'error');
+        this.loadOrders();
+      }
+    });
+  }
+
   logout(): void {
     this.adminSession.logout();
     void this.router.navigateByUrl('/admin/login');

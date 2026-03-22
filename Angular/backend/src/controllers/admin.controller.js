@@ -127,18 +127,31 @@ async function deleteProduct(req, res) {
 
 
 // ==========================
-// GET ORDERS
+// UPDATE ORDER STATUS
 // ==========================
-async function listOrders(_, res) {
+async function updateOrderStatus(req, res) {
   try {
-    const orders = await Order.find({})
-      .sort({ createdAt: -1 })
-      .select('-_id -__v')
-      .lean();
+    const orderId = Number(req.params.id);
+    const { status } = req.body;
 
-    return res.json(orders);
+    const validStatuses = ['placed', 'confirmed', 'shipped', 'delivered', 'cancelled'];
+    if (!validStatuses.includes(status)) {
+      return res.status(400).json({ message: 'Invalid status' });
+    }
+
+    const updated = await Order.findOneAndUpdate(
+      { id: orderId },
+      { status },
+      { new: true }
+    );
+
+    if (!updated) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
+    return res.json(updated);
   } catch (error) {
-    return res.status(500).json({ message: 'Failed to fetch orders' });
+    return res.status(500).json({ message: 'Failed to update order status' });
   }
 }
 
@@ -148,5 +161,6 @@ module.exports = {
   createProduct,
   updateProduct,
   deleteProduct,
-  listOrders
+  listOrders,
+  updateOrderStatus
 };

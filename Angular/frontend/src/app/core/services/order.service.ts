@@ -11,9 +11,13 @@ export class OrderService {
     customerName: string;
     email: string;
     address: string;
-    items: Array<{ id: number; name: string; price: number }>;
+    items: Array<{ id: number; name: string; price: number; quantity?: number }>;
     total: number;
   }): Observable<{ message: string; order: Order }> {
     return this.http.post<{ message: string; order: Order }>('/orders/checkout', payload);
+  }
+
+  getOrders(): Observable<Order[]> {
+    return this.http.get<Order[]>('/orders');
   }
 }

@@ -37,4 +37,8 @@ export class AdminService {
   getOrders(): Observable<Order[]> {
     return this.http.get<Order[]>('/admin/orders', { headers: this.headers() });
   }
+
+  updateOrderStatus(id: number, status: string): Observable<Order> {
+    return this.http.put<Order>(`/admin/orders/${id}/status`, { status }, { headers: this.headers() });
+  }
 }
