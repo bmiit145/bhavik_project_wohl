@@ -21,9 +21,12 @@ async function checkout(req, res) {
     const maxOrder = await Order.findOne({}).sort({ id: -1 }).select('id -_id').lean();
     const nextId = (maxOrder?.id || 0) + 1;
 
+    const mongoose = require('mongoose');
+    const userId = new mongoose.Types.ObjectId(req.user.userId);
+
     const order = await Order.create({
       id: nextId,
-      userId: req.user.userId,
+      userId,
       customerName: payload.customerName.trim(),
       email: payload.email.trim().toLowerCase(),
       address: payload.address.trim(),
@@ -52,9 +55,12 @@ async function checkout(req, res) {
 
 async function getMyOrders(req, res) {
   try {
-    const orders = await Order.find({ userId: req.user.userId }).sort({ createdAt: -1 });
+    const mongoose = require('mongoose');
+    const userId = new mongoose.Types.ObjectId(req.user.userId);
+    const orders = await Order.find({ userId }).sort({ createdAt: -1 });
     return res.json(orders);
   } catch (error) {
+    console.error('getMyOrders error:', error);
     return res.status(500).json({ message: 'Failed to fetch orders' });
   }
 }

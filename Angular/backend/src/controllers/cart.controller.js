@@ -1,9 +1,10 @@
+const mongoose = require('mongoose');
 const CartItem = require('../models/cart-item.model');
 const Product = require('../models/product.model');
 
 async function getCart(req, res) {
   try {
-    const userId = req.user.userId;
+    const userId = new mongoose.Types.ObjectId(req.user.userId);
     const cartItems = await CartItem.find({ userId }).sort({ createdAt: -1 }).lean();
     const productIds = cartItems.map((item) => item.productId);
     const products = await Product.find({ id: { $in: productIds } }).select('-_id').lean();
@@ -19,18 +20,20 @@ async function getCart(req, res) {
 
     return res.json(itemsWithQuantity);
   } catch (error) {
+    console.error('getCart error:', error);
     return res.status(500).json({ message: 'Failed to fetch cart' });
   }
 }
 
 async function addToCart(req, res) {
-  const productId = Number(req.body.productId);
-  if (!Number.isInteger(productId)) {
-    return res.status(400).json({ message: 'Invalid productId' });
-  }
-
   try {
-    const userId = req.user.userId;
+    const productId = Number(req.body.productId);
+    const userId = new mongoose.Types.ObjectId(req.user.userId);
+
+    if (isNaN(productId)) {
+      return res.status(400).json({ message: 'Invalid productId' });
+    }
+
     const product = await Product.findOne({ id: productId }).select('-_id').lean();
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
@@ -44,39 +47,42 @@ async function addToCart(req, res) {
     
     return res.status(201).json({ message: 'Added to cart', data: { ...product, quantity: cartItem.quantity } });
   } catch (error) {
+    console.error('addToCart error:', error);
     return res.status(500).json({ message: 'Failed to add item to cart' });
   }
 }
 
 async function removeFromCart(req, res) {
-  const id = Number(req.params.id);
-  if (!Number.isInteger(id)) {
-    return res.status(400).json({ message: 'Invalid product id' });
-  }
-
   try {
-    const userId = req.user.userId;
-    const deleted = await CartItem.findOneAndDelete({ userId, productId: id }, { sort: { createdAt: -1 } });
+    const productId = Number(req.params.id);
+    const userId = new mongoose.Types.ObjectId(req.user.userId);
+
+    if (isNaN(productId)) {
+      return res.status(400).json({ message: 'Invalid product id' });
+    }
+
+    const deleted = await CartItem.findOneAndDelete({ userId, productId });
     if (!deleted) {
       return res.status(404).json({ message: 'Item not found in cart' });
     }
 
-    return res.json({ message: 'Removed from cart' });
+    return res.status(200).json({ message: 'Removed from cart' });
   } catch (error) {
-    return res.status(500).json({ message: 'Failed to remove item from cart' });
+    console.error('removeFromCart error:', error);
+    return res.status(500).json({ message: 'Failed to remove from cart' });
   }
 }
 
 async function updateCartItem(req, res) {
-  const productId = Number(req.params.id);
-  const quantity = Number(req.body.quantity);
-
-  if (!Number.isInteger(productId) || !Number.isInteger(quantity) || quantity < 1) {
-    return res.status(400).json({ message: 'Invalid productId or quantity' });
-  }
-
   try {
-    const userId = req.user.userId;
+    const productId = Number(req.params.id);
+    const quantity = Number(req.body.quantity);
+
+    if (isNaN(productId) || isNaN(quantity) || quantity < 1) {
+      return res.status(400).json({ message: 'Invalid productId or quantity' });
+    }
+
+    const userId = new mongoose.Types.ObjectId(req.user.userId);
     const updated = await CartItem.findOneAndUpdate(
       { userId, productId },
       { quantity },
@@ -89,16 +95,18 @@ async function updateCartItem(req, res) {
 
     return res.json({ message: 'Cart updated', data: updated });
   } catch (error) {
+    console.error('updateCartItem error:', error);
     return res.status(500).json({ message: 'Failed to update cart' });
   }
 }
 
 async function clearCart(req, res) {
   try {
-    const userId = req.user.userId;
+    const userId = new mongoose.Types.ObjectId(req.user.userId);
     await CartItem.deleteMany({ userId });
     return res.json({ message: 'Cart cleared' });
   } catch (error) {
+    console.error('clearCart error:', error);
     return res.status(500).json({ message: 'Failed to clear cart' });
   }
 }

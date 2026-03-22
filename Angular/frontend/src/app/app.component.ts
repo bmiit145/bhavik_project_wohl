@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -10,6 +10,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatDividerModule } from '@angular/material/divider';
+import { AuthService } from './core/services/auth.service';
+import { CartService } from './core/services/cart.service';
 
 @Component({
   selector: 'app-root',
@@ -38,6 +40,19 @@ export class AppComponent {
   searchOpen = false;
   userMenuOpen = false;
 
+  constructor(
+    public readonly auth: AuthService,
+    public readonly cart: CartService
+  ) {
+    // Sync cart whenever login state changes (from null to user)
+    effect(() => {
+      const user = this.auth.currentUser();
+      if (user) {
+        this.cart.sync();
+      }
+    });
+  }
+
   @HostListener('window:scroll')
   onScroll() {
     this.isScrolled = window.scrollY > 10;
@@ -52,14 +67,15 @@ export class AppComponent {
   }
 
   isCustomerLoggedIn() {
-    return false;
+    return this.auth.currentUser() !== null;
   }
 
   logoutCustomer() {
-    console.log('logout');
+    this.auth.logout();
+    this.userMenuOpen = false;
   }
 
   customerName() {
-    return 'User';
+    return this.auth.currentUser()?.fullName || 'User';
   }
 }

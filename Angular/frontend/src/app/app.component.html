@@ -125,6 +125,17 @@
     <a mat-flat-button routerLink="/login" (click)="mobileMenuOpen = false" class="drawer-signin">Sign In</a>
     <a mat-stroked-button routerLink="/register" (click)="mobileMenuOpen = false" class="drawer-register">Register</a>
   </div>
+  <div class="drawer-footer authenticated-footer" *ngIf="isCustomerLoggedIn()">
+    <a mat-button routerLink="/cart" (click)="mobileMenuOpen = false">
+      <mat-icon>shopping_bag</mat-icon> <span>Cart</span>
+    </a>
+    <a mat-button routerLink="/wishlist" (click)="mobileMenuOpen = false">
+      <mat-icon>favorite_border</mat-icon> <span>Wishlist</span>
+    </a>
+    <button mat-button (click)="logoutCustomer(); mobileMenuOpen = false" class="text-danger">
+      <mat-icon>logout</mat-icon> <span>Logout</span>
+    </button>
+  </div>
 </aside>
 
 <main class="container page-wrap">

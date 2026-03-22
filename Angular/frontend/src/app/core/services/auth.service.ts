@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 
@@ -19,12 +19,28 @@ export class AuthService {
   private readonly tokenKey = 'wohl-auth-token';
   private readonly userKey = 'wohl-auth-user';
 
+  // Reactive Signal for Authentication State
+  readonly currentUser = signal<AuthUser | null>(this.getInitialUser());
+
   constructor(private readonly http: HttpClient) {}
+
+  private getInitialUser(): AuthUser | null {
+    const raw = localStorage.getItem(this.userKey);
+    if (!raw) return null;
+    try {
+      return JSON.parse(raw) as AuthUser;
+    } catch {
+      return null;
+    }
+  }
 
   login(email: string, password: string): Observable<LoginResponse> {
     return this.http
       .post<LoginResponse>('/auth/login', { email, password })
-      .pipe(tap((response) => this.persistSession(response.accessToken, response.user)));
+      .pipe(tap((response) => {
+        this.persistSession(response.accessToken, response.user);
+        this.currentUser.set(response.user); // Update signal reactively
+      }));
   }
 
   register(payload: {
@@ -38,20 +54,8 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.userKey);
+    this.currentUser.set(null); // Clear signal reactively
     window.dispatchEvent(new Event('wohl-auth-logout'));
-  }
-
-  getUser(): AuthUser | null {
-    const raw = localStorage.getItem(this.userKey);
-    if (!raw) {
-      return null;
-    }
-
-    try {
-      return JSON.parse(raw) as AuthUser;
-    } catch {
-      return null;
-    }
   }
 
   getToken(): string | null {
