@@ -127,6 +127,22 @@ async function deleteProduct(req, res) {
 
 
 // ==========================
+// LIST ALL ORDERS
+// ==========================
+async function listOrders(_, res) {
+  try {
+    const orders = await Order.find({})
+      .sort({ createdAt: -1 })
+      .lean();
+
+    return res.json(orders);
+  } catch (error) {
+    return res.status(500).json({ message: 'Failed to fetch orders' });
+  }
+}
+
+
+// ==========================
 // UPDATE ORDER STATUS
 // ==========================
 async function updateOrderStatus(req, res) {

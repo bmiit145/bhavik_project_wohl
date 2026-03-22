@@ -1,8 +1,103 @@
-<section class="card home-hero">
-  <h1>Premium Skincare & Grooming</h1>
-  <p>Modern Angular storefront with clean architecture, faster navigation, and scalable product workflows.</p>
-  <div class="hero-actions">
-    <a class="btn btn-primary" routerLink="/shop">Shop Now</a>
-    <a class="btn" routerLink="/new">New Arrivals</a>
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero-section">
+  <div class="hero-content">
+    <span class="hero-eyebrow">Wohl Reactions — Skincare Commerce</span>
+    <h1 class="hero-title">
+      Discover <span class="gradient-text">Premium</span><br />
+      Skincare & Grooming
+    </h1>
+    <p class="hero-desc">
+      Curated products for every skin type. Clean ingredients, visible results, delivered to your door.
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-primary btn-lg" routerLink="/shop">
+        Shop Collection &rarr;
+      </a>
+      <a class="btn btn-ghost btn-lg" routerLink="/new">
+        New Arrivals
+      </a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-blob"></div>
+    <div class="hero-float-card card-1">🧴 Moisturizers</div>
+    <div class="hero-float-card card-2">🌿 Natural</div>
+    <div class="hero-float-card card-3">💎 Premium</div>
+  </div>
+</section>
+
+<!-- ═══════════════ STATS BAR ═══════════════ -->
+<section class="stats-bar">
+  <div class="stat-item" *ngFor="let stat of stats">
+    <strong>{{ stat.value }}</strong>
+    <span>{{ stat.label }}</span>
+  </div>
+</section>
+
+<!-- ═══════════════ CATEGORIES ═══════════════ -->
+<section class="section">
+  <div class="section-head">
+    <div>
+      <h2 class="section-title">Shop by Category</h2>
+      <p class="section-subtitle">Find the perfect products for your needs</p>
+    </div>
+  </div>
+  <div class="category-grid">
+    <a class="category-card {{ cat.key }}" *ngFor="let cat of categories" [routerLink]="cat.route">
+      <span class="cat-icon">{{ cat.icon }}</span>
+      <h3>{{ cat.label }}</h3>
+      <p>{{ cat.desc }}</p>
+      <span class="cat-arrow">&rarr;</span>
+    </a>
+  </div>
+</section>
+
+<!-- ═══════════════ RANDOM PICK / SPOTLIGHT ═══════════════ -->
+<section class="section spotlight-section" *ngIf="randomPick">
+  <div class="spotlight-card">
+    <div class="spotlight-image">
+      <img [src]="randomPick.image" [alt]="randomPick.name" />
+      <div class="spotlight-badge">Today's Pick</div>
+    </div>
+    <div class="spotlight-info">
+      <span class="hero-eyebrow">Randomly Selected For You</span>
+      <h2 class="spotlight-name">{{ randomPick.name }}</h2>
+      <p class="spotlight-desc">{{ randomPick.description }}</p>
+      <div class="spotlight-meta">
+        <strong class="spotlight-price">{{ randomPick.price | currency:'INR' }}</strong>
+        <span class="spotlight-category badge">{{ randomPick.category }}</span>
+      </div>
+      <div class="spotlight-actions">
+        <button class="btn btn-primary" (click)="addRandomToCart()">Add to Cart</button>
+        <a class="btn" [routerLink]="['/product', randomPick.id]">View Details</a>
+        <button class="btn btn-ghost" (click)="pickRandom()">Shuffle Again ↻</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FEATURED PRODUCTS ═══════════════ -->
+<section class="section" *ngIf="featured.length > 0">
+  <div class="section-head">
+    <div>
+      <h2 class="section-title">Featured Products</h2>
+      <p class="section-subtitle">Handpicked favourites from our collection</p>
+    </div>
+    <a class="btn btn-sm" routerLink="/shop">View All &rarr;</a>
+  </div>
+  <div class="grid grid-3">
+    <app-product-card *ngFor="let product of featured" [product]="product"></app-product-card>
+  </div>
+</section>
+
+<!-- ═══════════════ CTA BANNER ═══════════════ -->
+<section class="cta-banner">
+  <div class="cta-content">
+    <h2>Ready to Glow?</h2>
+    <p>Join thousands of happy customers who trust Wohl Reactions for their skincare routine.</p>
+    <div class="hero-actions">
+      <a class="btn btn-white btn-lg" routerLink="/register">Create Account</a>
+      <a class="btn btn-ghost-white btn-lg" routerLink="/shop">Browse Products</a>
+    </div>
   </div>
 </section>
