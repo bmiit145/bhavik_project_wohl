@@ -4,6 +4,9 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const path = require('path');          // ✅ NEW
+const multer = require('multer');      // ✅ NEW
+
 const apiRoutes = require('./routes');
 const { connectToDatabase } = require('./config/database');
 const Product = require('./models/product.model');
@@ -27,6 +30,28 @@ if (corsOrigin) {
 app.use(express.json());
 app.use(morgan('dev'));
 
+
+// ==========================
+// ✅ FILE UPLOAD CONFIG
+// ==========================
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ storage });
+
+// ✅ Serve uploaded images
+app.use('/uploads', express.static('uploads'));
+
+
+// ==========================
+// ROUTES
+// ==========================
 app.use('/api/v1', apiRoutes);
 
 const port = process.env.PORT || 3000;
@@ -53,11 +78,9 @@ async function bootstrap() {
     }
 
     app.listen(port, () => {
-      // eslint-disable-next-line no-console
       console.log(`API server running on http://localhost:${port}`);
     });
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error(`Failed to start server: ${error.message}`);
     process.exit(1);
   }

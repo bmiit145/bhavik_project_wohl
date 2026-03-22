@@ -2,18 +2,56 @@ const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema(
   {
-    id: { type: Number, required: true, unique: true },
-    name: { type: String, required: true, trim: true },
+    // Unique product ID
+    id: { 
+      type: Number, 
+      required: true, 
+      unique: true 
+    },
+
+    // Product Name
+    name: { 
+      type: String, 
+      required: true, 
+      trim: true 
+    },
+
+    // Category (fixed values)
     category: {
       type: String,
       required: true,
       enum: ['men', 'women', 'kid', 'new']
     },
-    price: { type: Number, required: true, min: 0 },
-    image: { type: String, required: true, trim: true },
-    description: { type: String, required: true, trim: true }
+
+    // Product Price
+    price: { 
+      type: Number, 
+      required: true, 
+      min: 0 
+    },
+
+    // Product Image (uploaded or URL)
+    image: { 
+      type: String, 
+      trim: true 
+    },
+
+    // Product Description
+    description: { 
+      type: String, 
+      required: true, 
+      trim: true 
+    },
+
+    // ✅ NEW FIELD: Phone Number (manual entry)
+    phone: {
+      type: String,
+      trim: true
+    }
   },
-  { versionKey: false }
+  { 
+    versionKey: false 
+  }
 );
 
 module.exports = mongoose.model('Product', productSchema);

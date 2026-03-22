@@ -1,9 +1,28 @@
 <section class="card" style="margin-bottom: 1rem;">
-  <p style="margin:0; text-transform:uppercase; letter-spacing: .08em; color:#6366f1; font-size:.78rem;">All Products</p>
+  <p style="margin:0; text-transform:uppercase; letter-spacing: .08em; color:#6366f1; font-size:.78rem;">
+    All Products
+  </p>
+
   <h1 style="margin: .35rem 0;">Shop Collection</h1>
-  <p style="margin:0; color:#475569;">Discover skincare and grooming essentials across every category.</p>
+
+  <p style="margin:0; color:#475569;">
+    Discover skincare and grooming essentials across every category.
+  </p>
 </section>
 
+<!-- ✅ PRODUCT GRID -->
 <section class="grid grid-3">
-  <app-product-card *ngFor="let product of products" [product]="product" />
+
+  <!-- ✅ USE filteredProducts INSTEAD OF products -->
+  <app-product-card
+    *ngFor="let product of filteredProducts"
+    [product]="product">
+  </app-product-card>
+
+</section>
+
+<!-- ✅ NO RESULT MESSAGE -->
+<section *ngIf="filteredProducts.length === 0" style="text-align:center; margin-top:2rem;">
+  <h2>No products found 😔</h2>
+  <p>Try searching something else</p>
 </section>

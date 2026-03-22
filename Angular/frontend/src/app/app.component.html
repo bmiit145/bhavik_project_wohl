@@ -1,41 +1,136 @@
-<header class="topbar">
-  <div class="container nav">
-    <a routerLink="/" class="logo">
-      <span class="logo-mark">W</span>
-      <div>
+<mat-toolbar class="modern-toolbar" [class.scrolled]="isScrolled">
+  <div class="toolbar-container">
+    <!-- Logo -->
+    <a class="logo" routerLink="/">
+      <span class="logo-icon">W</span>
+      <div class="logo-text">
         <strong>Wohl Reactions</strong>
         <small>Skincare Commerce</small>
       </div>
     </a>
 
+    <!-- Desktop Nav Links -->
     <nav class="nav-links">
-      <a routerLink="/shop">Shop</a>
-      <a routerLink="/men">Men</a>
-      <a routerLink="/women">Women</a>
-      <a routerLink="/kid">Kid</a>
-      <a routerLink="/new">New</a>
-      <a routerLink="/cart" *ngIf="isCustomerLoggedIn()">Cart</a>
-      <a routerLink="/wishlist" *ngIf="isCustomerLoggedIn()">Wishlist</a>
-      <a routerLink="/profile" *ngIf="isCustomerLoggedIn()">Profile</a>
-      <a routerLink="/login" *ngIf="!isCustomerLoggedIn()">Login</a>
-      <a routerLink="/register" *ngIf="!isCustomerLoggedIn()">Register</a>
-      <button class="btn btn-link logout-link" *ngIf="isCustomerLoggedIn()" (click)="logoutCustomer()">
-        Logout ({{ customerName() }})
-      </button>
-      <a routerLink="/admin/login">Admin</a>
+      <a mat-button routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Home</a>
+      <a mat-button routerLink="/shop" routerLinkActive="active-link">Shop</a>
+      <a mat-button routerLink="/men" routerLinkActive="active-link">Men</a>
+      <a mat-button routerLink="/women" routerLinkActive="active-link">Women</a>
+      <a mat-button routerLink="/kid" routerLinkActive="active-link">Kid</a>
+      <a mat-button routerLink="/new" routerLinkActive="active-link">
+        New&nbsp;<span class="badge-new">New</span>
+      </a>
     </nav>
 
-    <a routerLink="/admin/login" class="btn btn-primary admin-link">Admin Panel</a>
+    <!-- Spacer -->
+    <span class="spacer"></span>
+
+    <!-- Right Actions -->
+    <div class="nav-actions">
+      <button mat-icon-button (click)="searchOpen = !searchOpen" aria-label="Search">
+        <mat-icon>search</mat-icon>
+      </button>
+
+      <ng-container *ngIf="isCustomerLoggedIn()">
+        <a mat-icon-button routerLink="/wishlist" aria-label="Wishlist">
+          <mat-icon>favorite_border</mat-icon>
+        </a>
+        <a mat-icon-button routerLink="/cart" aria-label="Cart">
+          <mat-icon>shopping_bag</mat-icon>
+        </a>
+        <button mat-icon-button [matMenuTriggerFor]="userMenu" class="avatar-trigger">
+          <div class="avatar-circle">{{ customerName().charAt(0) | uppercase }}</div>
+        </button>
+        <mat-menu #userMenu="matMenu" xPosition="before">
+          <div class="menu-header" (click)="$event.stopPropagation()">
+            <span class="menu-name">{{ customerName() }}</span>
+            <span class="menu-role">Customer</span>
+          </div>
+          <mat-divider></mat-divider>
+          <a mat-menu-item routerLink="/profile">
+            <mat-icon>person_outline</mat-icon> <span>Profile</span>
+          </a>
+          <a mat-menu-item routerLink="/admin/login">
+            <mat-icon>admin_panel_settings</mat-icon> <span>Admin Panel</span>
+          </a>
+          <mat-divider></mat-divider>
+          <button mat-menu-item (click)="logoutCustomer()">
+            <mat-icon>logout</mat-icon> <span>Logout</span>
+          </button>
+        </mat-menu>
+      </ng-container>
+
+      <ng-container *ngIf="!isCustomerLoggedIn()">
+        <a mat-button class="btn-signin" routerLink="/login">Sign In</a>
+        <a mat-flat-button class="btn-register" routerLink="/register">Register</a>
+        <a mat-icon-button routerLink="/admin/login" aria-label="Admin" class="admin-btn">
+          <mat-icon>admin_panel_settings</mat-icon>
+        </a>
+      </ng-container>
+
+      <!-- Mobile hamburger -->
+      <button mat-icon-button class="mobile-menu-btn" (click)="mobileMenuOpen = !mobileMenuOpen" aria-label="Menu">
+        <mat-icon>{{ mobileMenuOpen ? 'close' : 'menu' }}</mat-icon>
+      </button>
+    </div>
   </div>
-</header>
+</mat-toolbar>
+
+<!-- Search Overlay -->
+<div class="search-overlay" [class.open]="searchOpen">
+  <div class="search-container">
+    <mat-icon class="search-prefix">search</mat-icon>
+    <input
+      type="text"
+      [(ngModel)]="searchText"
+      placeholder="Search products, categories..."
+      (keyup.escape)="searchOpen = false"
+    />
+    <button mat-icon-button (click)="searchOpen = false" class="search-dismiss">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>
+
+<!-- Mobile Sidebar -->
+<div class="mobile-backdrop" *ngIf="mobileMenuOpen" (click)="mobileMenuOpen = false"></div>
+<aside class="mobile-drawer" [class.open]="mobileMenuOpen">
+  <div class="drawer-header">
+    <span class="drawer-title">Menu</span>
+    <button mat-icon-button (click)="mobileMenuOpen = false"><mat-icon>close</mat-icon></button>
+  </div>
+  <nav class="drawer-links">
+    <a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}" (click)="mobileMenuOpen = false">
+      <mat-icon>home</mat-icon> Home
+    </a>
+    <a routerLink="/shop" routerLinkActive="active-link" (click)="mobileMenuOpen = false">
+      <mat-icon>storefront</mat-icon> Shop
+    </a>
+    <a routerLink="/men" routerLinkActive="active-link" (click)="mobileMenuOpen = false">
+      <mat-icon>male</mat-icon> Men
+    </a>
+    <a routerLink="/women" routerLinkActive="active-link" (click)="mobileMenuOpen = false">
+      <mat-icon>female</mat-icon> Women
+    </a>
+    <a routerLink="/kid" routerLinkActive="active-link" (click)="mobileMenuOpen = false">
+      <mat-icon>child_care</mat-icon> Kid
+    </a>
+    <a routerLink="/new" routerLinkActive="active-link" (click)="mobileMenuOpen = false">
+      <mat-icon>new_releases</mat-icon> New Arrivals
+    </a>
+  </nav>
+  <div class="drawer-footer" *ngIf="!isCustomerLoggedIn()">
+    <a mat-flat-button routerLink="/login" (click)="mobileMenuOpen = false" class="drawer-signin">Sign In</a>
+    <a mat-stroked-button routerLink="/register" (click)="mobileMenuOpen = false" class="drawer-register">Register</a>
+  </div>
+</aside>
 
 <main class="container page-wrap">
-  <router-outlet />
+  <router-outlet></router-outlet>
 </main>
 
 <footer class="footer">
   <div class="container footer-inner">
-    <span>© {{ year }} Wohl Reactions</span>
+    <span>&copy; {{ year }} Wohl Reactions</span>
     <span>Professional Beauty Retail Platform</span>
   </div>
 </footer>

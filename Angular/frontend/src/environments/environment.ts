@@ -1,3 +1,3 @@
 export const environment = {
-  apiBaseUrl: '/api/v1'
+  apiBaseUrl: 'http://localhost:3000/api/v1'
 };

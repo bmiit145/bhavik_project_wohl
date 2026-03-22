@@ -1,15 +1,16 @@
-import { Component, HostListener } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+
+// Material
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatBadgeModule } from '@angular/material/badge';
-import { MatDividerModule } from '@angular/material/divider';
+
+// Forms
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -17,39 +18,18 @@ import { MatDividerModule } from '@angular/material/divider';
   imports: [
     CommonModule,
     RouterModule,
-    FormsModule,
     MatToolbarModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    MatMenuModule,
-    MatBadgeModule,
-    MatDividerModule
+    FormsModule
   ],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  templateUrl: './app.component.html'
 })
 export class AppComponent {
   searchText = '';
   year = new Date().getFullYear();
-  isScrolled = false;
-  mobileMenuOpen = false;
-  searchOpen = false;
-  userMenuOpen = false;
-
-  @HostListener('window:scroll')
-  onScroll() {
-    this.isScrolled = window.scrollY > 10;
-  }
-
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
-    const target = event.target as HTMLElement;
-    if (!target.closest('.user-menu-wrap')) {
-      this.userMenuOpen = false;
-    }
-  }
 
   isCustomerLoggedIn() {
     return false;

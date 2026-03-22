@@ -1,22 +1,81 @@
-<section class="card" *ngIf="loading()">Loading product details...</section>
-
-<section class="details card" *ngIf="!loading() && product() as item">
-  <img [src]="item.image" [alt]="item.name" />
-  <div>
-    <p class="eyebrow">{{ item.category }} collection</p>
-    <h1>{{ item.name }}</h1>
-    <p class="description">{{ item.description }}</p>
-    <p class="price">{{ item.price | currency:'INR' }}</p>
-
-    <div class="actions">
-      <button class="btn btn-primary" (click)="addToCart()">Add to Cart</button>
-      <button class="btn" (click)="addToWishlist()">Add to Wishlist</button>
-      <a class="btn" routerLink="/shop">Continue Shopping</a>
-    </div>
-  </div>
+<!-- ========================= -->
+<!-- LOADING -->
+<!-- ========================= -->
+<section class="loading" *ngIf="loading()">
+  <mat-spinner></mat-spinner>
 </section>
 
-<section class="card" *ngIf="!loading() && !product()">
+
+<!-- ========================= -->
+<!-- PRODUCT DETAILS -->
+<!-- ========================= -->
+<section class="details-container" *ngIf="!loading() && product() as item">
+
+  <!-- LEFT: IMAGE -->
+  <div class="image-section">
+    <img 
+      [src]="item.image || 'https://via.placeholder.com/400'" 
+      [alt]="item.name" 
+    />
+  </div>
+
+
+  <!-- RIGHT: INFO -->
+  <div class="info-section">
+
+    <!-- Category -->
+    <p class="category">
+      {{ item.category | titlecase }} Collection
+    </p>
+
+    <!-- Title -->
+    <h1>{{ item.name }}</h1>
+
+    <!-- Price -->
+    <h2 class="price">
+      {{ item.price | currency:'INR' }}
+    </h2>
+
+    <!-- Description -->
+    <p class="description">
+      {{ item.description }}
+    </p>
+
+    <!-- ✅ PHONE -->
+    <p class="phone" *ngIf="item.phone">
+      📞 Contact: <strong>{{ item.phone }}</strong>
+    </p>
+
+    <!-- Buttons -->
+    <div class="actions">
+
+      <button mat-raised-button color="primary" (click)="addToCart()">
+        <mat-icon>shopping_cart</mat-icon>
+        Add to Cart
+      </button>
+
+      <button mat-stroked-button color="accent" (click)="addToWishlist()">
+        <mat-icon>favorite</mat-icon>
+        Wishlist
+      </button>
+
+      <button mat-button routerLink="/shop">
+        Continue Shopping
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ========================= -->
+<!-- NOT FOUND -->
+<!-- ========================= -->
+<section class="not-found" *ngIf="!loading() && !product()">
   <h2>Product not found</h2>
-  <a class="btn" routerLink="/shop">Back to Shop</a>
+  <button mat-raised-button color="primary" routerLink="/shop">
+    Back to Shop
+  </button>
 </section>
