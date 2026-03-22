@@ -139,6 +139,7 @@
                   <td><span class="badge text-bg-light text-capitalize">{{ product.category }}</span></td>
                   <td>{{ product.price | currency:'INR' }}</td>
                   <td class="text-end">
+                    <button class="btn btn-sm btn-outline-primary me-1" (click)="openEditModal(product)">Edit</button>
                     <button class="btn btn-sm btn-outline-danger" (click)="deleteProduct(product.id)">Delete</button>
                   </td>
                 </tr>
@@ -218,6 +219,79 @@
         </div>
       </ng-container>
 
+    </div>
+  </div>
+
+  <!-- ==================== EDIT PRODUCT MODAL ==================== -->
+  <div class="modal-backdrop" *ngIf="editModalOpen" (click)="closeEditModal()"></div>
+  <div class="edit-modal" *ngIf="editModalOpen">
+    <div class="edit-modal-header">
+      <h5 class="mb-0">Edit Product <span class="text-secondary fw-normal">#{{ editForm.id }}</span></h5>
+      <button class="btn btn-sm btn-light rounded-circle" (click)="closeEditModal()">&times;</button>
+    </div>
+
+    <div class="edit-modal-body">
+      <form (ngSubmit)="saveEdit()" #editFormRef="ngForm">
+        <div class="row g-3">
+          <div class="col-md-8">
+            <label class="form-label">Product Name</label>
+            <input class="form-control" name="editName" [(ngModel)]="editForm.name" required />
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Category</label>
+            <select class="form-select" name="editCategory" [(ngModel)]="editForm.category" required>
+              <option value="men">Men</option>
+              <option value="women">Women</option>
+              <option value="kid">Kid</option>
+              <option value="new">New</option>
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Price (&#8377;)</label>
+            <input class="form-control" name="editPrice" type="number" [(ngModel)]="editForm.price" required />
+          </div>
+
+          <div class="col-md-8">
+            <label class="form-label">Product Image</label>
+            <div class="image-upload-area">
+              <input
+                type="file"
+                accept="image/*"
+                (change)="onEditFileSelected($event)"
+                #editFileInput
+                hidden
+              />
+              <div class="upload-box compact" (click)="editFileInput.click()" *ngIf="!editImagePreview">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" />
+                </svg>
+                <span class="upload-label">Click to upload</span>
+              </div>
+              <div class="preview-box" *ngIf="editImagePreview">
+                <img [src]="editImagePreview" alt="Preview" class="preview-img" />
+                <button type="button" class="btn btn-sm btn-outline-danger remove-btn" (click)="clearEditFile(); editFileInput.value = ''">
+                  Change
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" rows="3" name="editDescription" [(ngModel)]="editForm.description" required></textarea>
+          </div>
+        </div>
+
+        <div class="edit-modal-footer">
+          <button type="button" class="btn btn-outline-secondary" (click)="closeEditModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary" [disabled]="!editFormRef.form.valid || editSaving">
+            <span *ngIf="editSaving">Saving...</span>
+            <span *ngIf="!editSaving">Save Changes</span>
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </section>

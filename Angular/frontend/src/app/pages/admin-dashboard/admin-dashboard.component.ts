@@ -62,6 +62,19 @@ export class AdminDashboardComponent implements OnInit {
   selectedFile: File | null = null;
   imagePreview: string | null = null;
 
+  // Edit modal state
+  editModalOpen = false;
+  editForm = {
+    id: 0,
+    name: '',
+    category: 'new' as 'men' | 'women' | 'kid' | 'new',
+    price: 0,
+    description: ''
+  };
+  editSelectedFile: File | null = null;
+  editImagePreview: string | null = null;
+  editSaving = false;
+
   constructor(
     private readonly adminService: AdminService,
     private readonly adminSession: AdminSessionService,
@@ -174,6 +187,75 @@ export class AdminDashboardComponent implements OnInit {
       error: () => {
         Swal.fire('Error', 'Failed to update order status', 'error');
         this.loadOrders();
+      }
+    });
+  }
+
+  // ─── Edit Modal ──────────────────────────────────────────────────────
+  openEditModal(product: Product): void {
+    this.editForm = {
+      id: product.id,
+      name: product.name,
+      category: product.category,
+      price: product.price,
+      description: product.description || ''
+    };
+    this.editSelectedFile = null;
+    this.editImagePreview = product.image || null;
+    this.editModalOpen = true;
+  }
+
+  closeEditModal(): void {
+    this.editModalOpen = false;
+    this.editSelectedFile = null;
+    this.editImagePreview = null;
+  }
+
+  onEditFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      this.editSelectedFile = input.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.editImagePreview = reader.result as string;
+      };
+      reader.readAsDataURL(this.editSelectedFile);
+    }
+  }
+
+  clearEditFile(): void {
+    this.editSelectedFile = null;
+    this.editImagePreview = null;
+  }
+
+  saveEdit(): void {
+    this.editSaving = true;
+    const formData = new FormData();
+    formData.append('name', this.editForm.name);
+    formData.append('category', this.editForm.category);
+    formData.append('price', String(this.editForm.price));
+    formData.append('description', this.editForm.description);
+
+    if (this.editSelectedFile) {
+      formData.append('image', this.editSelectedFile, this.editSelectedFile.name);
+    }
+
+    this.adminService.updateProduct(this.editForm.id, formData).subscribe({
+      next: () => {
+        this.editSaving = false;
+        this.closeEditModal();
+        this.loadProducts();
+        Swal.fire({
+          title: 'Updated!',
+          text: 'Product updated successfully',
+          icon: 'success',
+          timer: 1500,
+          showConfirmButton: false
+        });
+      },
+      error: () => {
+        this.editSaving = false;
+        Swal.fire('Error', 'Failed to update the product.', 'error');
       }
     });
   }
