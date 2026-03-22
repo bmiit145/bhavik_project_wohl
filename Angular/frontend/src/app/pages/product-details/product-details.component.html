@@ -9,7 +9,7 @@
 <!-- ========================= -->
 <!-- PRODUCT DETAILS -->
 <!-- ========================= -->
-<section class="details-container" *ngIf="!loading() && product() as item">
+<section class="details container mt-4" *ngIf="!loading() && product() as item">
 
   <!-- LEFT: IMAGE -->
   <div class="image-section">
@@ -24,7 +24,7 @@
   <div class="info-section">
 
     <!-- Category -->
-    <p class="category">
+    <p class="eyebrow">
       {{ item.category | titlecase }} Collection
     </p>
 

@@ -1,5 +1,6 @@
 <section class="admin-shell">
   <div class="row g-3">
+    <!-- Sidebar -->
     <aside class="col-12 col-lg-3">
       <div class="card border-0 shadow-sm admin-sidebar sticky-lg-top">
         <div>
@@ -10,9 +11,9 @@
         <hr class="my-3" />
 
         <div class="d-grid gap-2 small fw-semibold">
-          <a class="admin-nav active">Dashboard</a>
-          <a class="admin-nav">Products</a>
-          <a class="admin-nav">Orders</a>
+          <a class="admin-nav" [class.active]="currentTab === 'dashboard'" (click)="switchTab('dashboard')" style="cursor: pointer;">Dashboard</a>
+          <a class="admin-nav" [class.active]="currentTab === 'products'" (click)="switchTab('products')" style="cursor: pointer;">Products</a>
+          <a class="admin-nav" [class.active]="currentTab === 'orders'" (click)="switchTab('orders')" style="cursor: pointer;">Orders</a>
         </div>
 
         <hr class="my-3" />
@@ -30,7 +31,10 @@
       </div>
     </aside>
 
+    <!-- Main Content -->
     <div class="col-12 col-lg-9 d-grid gap-3">
+      
+      <!-- Top Bar -->
       <div class="card border-0 shadow-sm">
         <div class="d-flex flex-wrap justify-content-between align-items-start gap-3">
           <div>
@@ -41,138 +45,170 @@
         </div>
       </div>
 
-      <div class="card border-0 shadow-sm">
-        <h4 class="h5 mb-3">Create Product</h4>
+      <!-- ==================== DASHBOARD TAB ==================== -->
+      <ng-container *ngIf="currentTab === 'dashboard'">
+        <div class="card border-0 shadow-sm">
+          <h4 class="h5 mb-3">Create Product</h4>
 
-        <form (ngSubmit)="addProduct()" #addForm="ngForm" class="row g-3">
-          <div class="col-md-6">
-            <label class="form-label">Product Name</label>
-            <input class="form-control" name="name" [(ngModel)]="form.name" placeholder="Night Repair Cream" required />
-          </div>
+          <form (ngSubmit)="addProduct()" #addForm="ngForm" class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Product Name</label>
+              <input class="form-control" name="name" [(ngModel)]="form.name" placeholder="Night Repair Cream" required />
+            </div>
 
-          <div class="col-md-3">
-            <label class="form-label">Category</label>
-            <select class="form-select" name="category" [(ngModel)]="form.category" required>
-              <option value="men">Men</option>
-              <option value="women">Women</option>
-              <option value="kid">Kid</option>
-              <option value="new">New</option>
-            </select>
-          </div>
+            <div class="col-md-3">
+              <label class="form-label">Category</label>
+              <select class="form-select" name="category" [(ngModel)]="form.category" required>
+                <option value="men">Men</option>
+                <option value="women">Women</option>
+                <option value="kid">Kid</option>
+                <option value="new">New</option>
+              </select>
+            </div>
 
-          <div class="col-md-3">
-            <label class="form-label">Price (₹)</label>
-            <input class="form-control" name="price" type="number" [(ngModel)]="form.price" placeholder="699" required />
-          </div>
+            <div class="col-md-3">
+              <label class="form-label">Price (₹)</label>
+              <input class="form-control" name="price" type="number" [(ngModel)]="form.price" placeholder="699" required />
+            </div>
 
-          <div class="col-md-12">
-            <label class="form-label">Product Image</label>
-            <div class="image-upload-area">
-              <input
-                type="file"
-                accept="image/*"
-                (change)="onFileSelected($event)"
-                #fileInput
-                hidden
-              />
-              <div class="upload-box" (click)="fileInput.click()" *ngIf="!imagePreview">
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" />
-                </svg>
-                <span class="upload-label">Click to upload image</span>
-                <span class="upload-hint">PNG, JPG, WEBP up to 5MB</span>
-              </div>
-              <div class="preview-box" *ngIf="imagePreview">
-                <img [src]="imagePreview" alt="Preview" class="preview-img" />
-                <button type="button" class="btn btn-sm btn-outline-danger remove-btn" (click)="clearFile(); fileInput.value = ''">Remove</button>
+            <div class="col-md-12">
+              <label class="form-label">Product Image</label>
+              <div class="image-upload-area">
+                <input
+                  type="file"
+                  accept="image/*"
+                  (change)="onFileSelected($event)"
+                  #fileInput
+                  hidden
+                />
+                <div class="upload-box" (click)="fileInput.click()" *ngIf="!imagePreview">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" />
+                  </svg>
+                  <span class="upload-label">Click to upload image</span>
+                  <span class="upload-hint">PNG, JPG, WEBP up to 5MB</span>
+                </div>
+                <div class="preview-box" *ngIf="imagePreview">
+                  <img [src]="imagePreview" alt="Preview" class="preview-img" />
+                  <button type="button" class="btn btn-sm btn-outline-danger remove-btn" (click)="clearFile(); fileInput.value = ''">Remove</button>
+                </div>
               </div>
             </div>
+
+            <div class="col-md-12">
+              <label class="form-label">Description</label>
+              <textarea class="form-control" rows="3" name="description" [(ngModel)]="form.description" placeholder="Short product summary" required></textarea>
+            </div>
+
+            <div class="col-12 d-flex justify-content-end">
+              <button class="btn btn-primary" [disabled]="!addForm.form.valid">Create Product</button>
+            </div>
+          </form>
+        </div>
+      </ng-container>
+
+      <!-- ==================== PRODUCTS TAB ==================== -->
+      <ng-container *ngIf="currentTab === 'products'">
+        <div class="card border-0 shadow-sm">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="h5 mb-0">Manage Products</h4>
+            <span class="badge text-bg-primary-subtle text-primary-emphasis">{{ products.length }} items</span>
           </div>
 
-          <div class="col-md-12">
-            <label class="form-label">Description</label>
-            <textarea class="form-control" rows="3" name="description" [(ngModel)]="form.description" placeholder="Short product summary" required></textarea>
+          <div *ngIf="products.length === 0" class="empty-state">No products found.</div>
+
+          <div class="table-responsive" *ngIf="products.length > 0">
+            <table class="table table-hover align-middle mb-0">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Image</th>
+                  <th>Name</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th class="text-end">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let product of paginatedProducts">
+                  <td>#{{ product.id }}</td>
+                  <td>
+                    <img [src]="product.image" alt="img" width="40" height="40" style="object-fit: cover; border-radius: 6px;">
+                  </td>
+                  <td class="fw-semibold">{{ product.name }}</td>
+                  <td><span class="badge text-bg-light text-capitalize">{{ product.category }}</span></td>
+                  <td>{{ product.price | currency:'INR' }}</td>
+                  <td class="text-end">
+                    <button class="btn btn-sm btn-outline-danger" (click)="deleteProduct(product.id)">Delete</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
 
-          <div class="col-12 d-flex justify-content-end">
-            <button class="btn btn-primary" [disabled]="!addForm.form.valid">Create Product</button>
+          <!-- Products Pagination -->
+          <div class="d-flex justify-content-between align-items-center mt-3" *ngIf="products.length > productsPageSize">
+            <span class="text-secondary small">Showing page {{ productsCurrentPage }} of {{ productsTotalPages }}</span>
+            <div class="btn-group">
+              <button class="btn btn-sm btn-outline-secondary" [disabled]="productsCurrentPage === 1" (click)="productsCurrentPage = productsCurrentPage - 1">Previous</button>
+              <button class="btn btn-sm btn-outline-secondary" [disabled]="productsCurrentPage === productsTotalPages" (click)="productsCurrentPage = productsCurrentPage + 1">Next</button>
+            </div>
           </div>
-        </form>
-      </div>
-
-      <div class="card border-0 shadow-sm">
-        <div class="d-flex justify-content-between align-items-center mb-2">
-          <h4 class="h5 mb-0">Products</h4>
-          <span class="badge text-bg-primary-subtle text-primary-emphasis">{{ products.length }} items</span>
         </div>
+      </ng-container>
 
-        <div *ngIf="products.length === 0" class="empty-state">No products found.</div>
+      <!-- ==================== ORDERS TAB ==================== -->
+      <ng-container *ngIf="currentTab === 'orders'">
+        <div class="card border-0 shadow-sm">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="h5 mb-0">Manage Orders</h4>
+            <span class="badge text-bg-primary-subtle text-primary-emphasis">{{ orders.length }} orders</span>
+          </div>
 
-        <div class="table-responsive" *ngIf="products.length > 0">
-          <table class="table table-hover align-middle mb-0">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Price</th>
-                <th class="text-end">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let product of products">
-                <td>#{{ product.id }}</td>
-                <td class="fw-semibold">{{ product.name }}</td>
-                <td><span class="badge text-bg-light text-capitalize">{{ product.category }}</span></td>
-                <td>{{ product.price | currency:'INR' }}</td>
-                <td class="text-end">
-                  <button class="btn btn-sm btn-outline-danger" (click)="deleteProduct(product.id)">Delete</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div *ngIf="orders.length === 0" class="empty-state">No orders yet.</div>
+
+          <div class="table-responsive" *ngIf="orders.length > 0">
+            <table class="table table-hover align-middle mb-0">
+              <thead>
+                <tr>
+                  <th>Order</th>
+                  <th>Customer</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let order of paginatedOrders">
+                  <td>#{{ order.id }}</td>
+                  <td class="fw-semibold">{{ order.customerName }}</td>
+                  <td>{{ order.total | currency:'INR' }}</td>
+                  <td>
+                    <span
+                      class="badge"
+                      [class.text-bg-success]="order.status.toLowerCase() === 'completed'"
+                      [class.text-bg-warning]="order.status.toLowerCase() !== 'completed'"
+                    >
+                      {{ order.status }}
+                    </span>
+                  </td>
+                  <td>{{ order.createdAt | date:'medium' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Orders Pagination -->
+          <div class="d-flex justify-content-between align-items-center mt-3" *ngIf="orders.length > ordersPageSize">
+            <span class="text-secondary small">Showing page {{ ordersCurrentPage }} of {{ ordersTotalPages }}</span>
+            <div class="btn-group">
+              <button class="btn btn-sm btn-outline-secondary" [disabled]="ordersCurrentPage === 1" (click)="ordersCurrentPage = ordersCurrentPage - 1">Previous</button>
+              <button class="btn btn-sm btn-outline-secondary" [disabled]="ordersCurrentPage === ordersTotalPages" (click)="ordersCurrentPage = ordersCurrentPage + 1">Next</button>
+            </div>
+          </div>
         </div>
-      </div>
+      </ng-container>
 
-      <div class="card border-0 shadow-sm">
-        <div class="d-flex justify-content-between align-items-center mb-2">
-          <h4 class="h5 mb-0">Orders</h4>
-          <span class="badge text-bg-primary-subtle text-primary-emphasis">{{ orders.length }} orders</span>
-        </div>
-
-        <div *ngIf="orders.length === 0" class="empty-state">No orders yet.</div>
-
-        <div class="table-responsive" *ngIf="orders.length > 0">
-          <table class="table table-hover align-middle mb-0">
-            <thead>
-              <tr>
-                <th>Order</th>
-                <th>Customer</th>
-                <th>Total</th>
-                <th>Status</th>
-                <th>Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let order of orders">
-                <td>#{{ order.id }}</td>
-                <td class="fw-semibold">{{ order.customerName }}</td>
-                <td>{{ order.total | currency:'INR' }}</td>
-                <td>
-                  <span
-                    class="badge"
-                    [class.text-bg-success]="order.status.toLowerCase() === 'completed'"
-                    [class.text-bg-warning]="order.status.toLowerCase() !== 'completed'"
-                  >
-                    {{ order.status }}
-                  </span>
-                </td>
-                <td>{{ order.createdAt | date:'medium' }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
     </div>
   </div>
 </section>

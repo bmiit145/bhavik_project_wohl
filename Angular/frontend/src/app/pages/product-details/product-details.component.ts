@@ -1,6 +1,9 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { CurrencyPipe, NgIf } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { ProductService } from '../../core/services/product.service';
 import { Product } from '../../core/models/product.model';
 import { CartService } from '../../core/services/cart.service';
@@ -9,7 +12,14 @@ import { WishlistService } from '../../core/services/wishlist.service';
 @Component({
   standalone: true,
   selector: 'app-product-details',
-  imports: [NgIf, CurrencyPipe, RouterLink],
+  imports: [
+    CommonModule,
+    CurrencyPipe,
+    RouterLink,
+    MatProgressSpinnerModule,
+    MatButtonModule,
+    MatIconModule
+  ],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.scss'
 })
