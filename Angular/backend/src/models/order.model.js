@@ -20,6 +20,7 @@ const orderSchema = new mongoose.Schema(
     items: { type: [orderItemSchema], default: [] },
     total: { type: Number, required: true, min: 0 },
     status: { type: String, required: true, default: 'placed' },
+    razorpayPaymentId: { type: String, default: null },
     createdAt: { type: Date, default: Date.now }
   },
   { versionKey: false }

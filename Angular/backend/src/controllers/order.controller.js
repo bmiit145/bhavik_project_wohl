@@ -32,7 +32,8 @@ async function checkout(req, res) {
       address: payload.address.trim(),
       items: payload.items,
       total: payload.total || 0,
-      status: 'placed'
+      razorpayPaymentId: payload.paymentId || null,
+      status: payload.paymentId ? 'paid' : 'placed'
     });
 
     return res.status(201).json({
@@ -45,6 +46,7 @@ async function checkout(req, res) {
         items: order.items,
         total: order.total,
         status: order.status,
+        razorpayPaymentId: order.razorpayPaymentId,
         createdAt: order.createdAt
       }
     });

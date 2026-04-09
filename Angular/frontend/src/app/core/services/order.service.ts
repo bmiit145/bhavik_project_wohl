@@ -13,6 +13,7 @@ export class OrderService {
     address: string;
     items: Array<{ id: number; name: string; price: number; quantity?: number }>;
     total: number;
+    paymentId?: string;
   }): Observable<{ message: string; order: Order }> {
     return this.http.post<{ message: string; order: Order }>('/orders/checkout', payload);
   }

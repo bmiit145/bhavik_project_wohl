@@ -5,6 +5,8 @@ import { CartService } from '../../core/services/cart.service';
 import { OrderService } from '../../core/services/order.service';
 import { Router } from '@angular/router';
 
+declare var Razorpay: any;
+
 @Component({
   standalone: true,
   selector: 'app-checkout',
@@ -30,7 +32,48 @@ export class CheckoutComponent {
       return;
     }
 
+    if (!this.customerName || !this.email || !this.address) {
+      this.status.set('Please fill out all checkout fields.');
+      return;
+    }
+
     this.isSubmitting.set(true);
+
+    const amount = this.cart.total();
+    
+    const options = {
+      key: "rzp_test_RDMVIBCYmVJ6py",
+      amount: amount * 100,
+      name: "Wohl Reactions | Premium Skincare & Grooming",
+      description: "Test Transaction",
+      image: "https://i.pinimg.com/originals/50/98/0c/50980c03b2e1238431c084e4001dcf57.jpg",
+      handler: (response: any) => {
+        this.submitOrder(response.razorpay_payment_id);
+      },
+      prefill: {
+        name: this.customerName,
+        email: this.email
+      },
+      theme: {
+        color: "#3399cc"
+      }
+    };
+    
+    if (typeof Razorpay === 'undefined') {
+      this.status.set('Payment gateway failed to load.');
+      this.isSubmitting.set(false);
+      return;
+    }
+
+    const rzp = new Razorpay(options);
+    rzp.on('payment.failed', (response: any) => {
+      this.status.set('Payment failed or was closed.');
+      this.isSubmitting.set(false);
+    });
+    rzp.open();
+  }
+
+  private submitOrder(paymentId: string): void {
     this.orderService
       .checkout({
         customerName: this.customerName,
@@ -42,7 +85,8 @@ export class CheckoutComponent {
           price: item.price,
           quantity: item.quantity || 1 
         })),
-        total: this.cart.total()
+        total: this.cart.total(),
+        paymentId
       })
       .subscribe({
         next: ({ order }) => {
